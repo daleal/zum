@@ -1,13 +1,12 @@
 """
-A module to route the CLI traffic.
+A module to route the zum CLI traffic.
 """
 
-import sys
-from argparse import ArgumentParser, _SubParsersAction
+from argparse import ArgumentParser
 from typing import Any, List
 
 import zum
-from zum.executor import Executor
+from zum.core import Executor
 
 
 def dispatcher(*args: Any, **kwargs: Any) -> None:
@@ -21,18 +20,7 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
     parser = generate_parser(actions_list)
     parsed_args = parser.parse_args(*args, **kwargs)
 
-    try:
-        action = parsed_args.action[0]
-        if action in actions_list:
-            executor.execute(action)
-        else:
-            print(f"Invalid action {action}.")
-            parser.print_help()
-            sys.exit(1)
-    except AttributeError:
-        print("An argument is required for the zum command.")
-        parser.print_help()
-        sys.exit(1)
+    executor.execute(parsed_args.action[0], parsed_args.params)
 
 
 def generate_parser(actions_list: List[str]) -> ArgumentParser:

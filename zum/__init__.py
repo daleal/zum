@@ -1,5 +1,5 @@
 """
-Init file for the zum module.
+Init file for the zum library.
 """
 
 version_info = (0, 0, 1)
