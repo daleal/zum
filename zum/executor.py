@@ -3,7 +3,7 @@ from typing import Any
 
 import httpx
 
-from zum.parser import parse_metadata, parse_endpoints
+from zum.parser import parse_endpoints, parse_metadata
 from zum.utils import read_config_file
 from zum.validations import validate_configs
 
@@ -28,9 +28,6 @@ class Executor:
     @staticmethod
     def handle_response(response: httpx.Response) -> None:
         view = json.dumps(
-            response.json(),
-            indent=2,
-            sort_keys=False,
-            ensure_ascii=False
+            response.json(), indent=2, sort_keys=False, ensure_ascii=False
         )
         print(view)

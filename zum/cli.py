@@ -3,7 +3,6 @@ A module to route the CLI traffic.
 """
 
 import sys
-
 from argparse import ArgumentParser, _SubParsersAction
 from typing import Any, List
 
@@ -50,16 +49,9 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
     )
 
     # Add action argument
-    parser.add_argument(
-        "action",
-        choices=actions_list,
-        nargs=1
-    )
+    parser.add_argument("action", choices=actions_list, nargs=1)
 
     # Add params
-    parser.add_argument(
-        "params",
-        nargs="*"
-    )
+    parser.add_argument("params", nargs="*")
 
     return parser

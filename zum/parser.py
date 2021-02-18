@@ -4,8 +4,8 @@ from typing import Any, Dict
 
 import tomlkit
 
-from zum.errors import InvalidConfigFileError
 from zum.abstractions import Endpoint, Metadata
+from zum.errors import InvalidConfigFileError
 
 
 def parse_metadata(metadata: Dict[str, str]) -> Metadata:
