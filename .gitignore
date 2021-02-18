@@ -21,7 +21,6 @@ dist/
 *.log
 
 # TOML files
-*.toml
-!pyproject.tom
+zum.toml
 
 .github

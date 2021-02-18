@@ -1,4 +1,5 @@
 import json
+from typing import Any
 
 import httpx
 
@@ -14,7 +15,7 @@ class Executor:
         self.metadata = parse_metadata(configs["metadata"])
         self.endpoints = parse_endpoints(configs["endpoints"])
 
-    def execute(self, instruction: str, **kwargs: str) -> None:
+    def execute(self, instruction: str, **kwargs: Any) -> None:
         url = f"{self.metadata.server}{self.endpoints[instruction].route}"
         method = self.endpoints[instruction].method
         response = self.query(url, method)
