@@ -23,10 +23,11 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
     parsed_args = parser.parse_args(*args, **kwargs)
 
     try:
-        if parsed_args.action in actions_list:
-            executor.execute(parsed_args.action)
+        action = parsed_args.action[0]
+        if action in actions_list:
+            executor.execute(action)
         else:
-            print("Invalid action.")
+            print(f"Invalid action {action}.")
             parser.print_help()
             sys.exit(1)
     except AttributeError:
@@ -48,17 +49,17 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
         version=f"zum version {zum.__version__}",
     )
 
-    # Create subparsers
-    subparsers = parser.add_subparsers(help="Action to be executed.")
+    # Add action argument
+    parser.add_argument(
+        "action",
+        choices=actions_list,
+        nargs=1
+    )
 
-    # Populate subparsers
-    for action in actions_list:
-        generate_subparser(subparsers, action)
+    # Add params
+    parser.add_argument(
+        "params",
+        nargs="*"
+    )
 
-    return parser
-
-
-def generate_subparser(subparsers: _SubParsersAction, action: str) -> ArgumentParser:
-    parser = subparsers.add_parser(action)
-    parser.set_defaults(action=action)
     return parser
