@@ -19,9 +19,11 @@ class Executor:
         self.metadata = parse_metadata(configs["metadata"])
         self.endpoints = parse_endpoints(configs["endpoints"])
 
-    def execute(self, instruction: str, params: List[Any]) -> None:
-        url = f"{self.metadata.server}{self.endpoints[instruction].route}"
-        method = self.endpoints[instruction].method
+    def execute(self, instruction: str, options: List[Any]) -> None:
+        endpoint = self.endpoints[instruction]
+        params, remaining_options = endpoint.parse_params(options)
+        url = f"{self.metadata.server}{endpoint.get_route(**params)}"
+        method = endpoint.method
         response = self.query(url, method)
         self.handle_response(response)
 

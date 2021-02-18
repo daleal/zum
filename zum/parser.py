@@ -20,5 +20,8 @@ def parse_endpoints(endpoints: Dict[str, Any]) -> Dict[str, Endpoint]:
 
 
 def parse_endpoint(data: dict) -> Endpoint:
-    http_method = data["method"] if "method" in data else DEFAULT_HTTP_METHOD
-    return Endpoint(route=data["route"], method=http_method)
+    return Endpoint(
+        route=data["route"],
+        method=data.get("method") or DEFAULT_HTTP_METHOD,
+        params=data.get("params")
+    )
