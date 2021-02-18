@@ -1,6 +1,7 @@
-from zum.parser.core import Parser
+import sys
+
+from zum.executor import Executor
 
 if __name__ == "__main__":
-    data = Parser()
-    data.parse()
-    print(data.endpoints)
+    executor = Executor()
+    executor.execute(sys.argv[1])
