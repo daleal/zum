@@ -23,5 +23,6 @@ def parse_endpoint(data: dict) -> Endpoint:
     return Endpoint(
         route=data["route"],
         method=data.get("method") or DEFAULT_HTTP_METHOD,
-        params=data.get("params")
+        params=data.get("params"),
+        body=data.get("body"),
     )

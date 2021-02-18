@@ -3,7 +3,7 @@ The main module of the zum library.
 """
 
 import json
-from typing import Any, List
+from typing import Any, Dict, List
 
 import httpx
 
@@ -22,14 +22,14 @@ class Executor:
     def execute(self, instruction: str, options: List[Any]) -> None:
         endpoint = self.endpoints[instruction]
         params, remaining_options = endpoint.parse_params(options)
+        body, remaining_options = endpoint.parse_body(remaining_options)
         url = f"{self.metadata.server}{endpoint.get_route(**params)}"
-        method = endpoint.method
-        response = self.query(url, method)
+        response = self.query(url, endpoint.method, body)
         self.handle_response(response)
 
     @staticmethod
-    def query(url: str, method: str) -> httpx.Response:
-        return httpx.request(method, url)
+    def query(url: str, method: str, body: Dict[str, Any]) -> httpx.Response:
+        return httpx.request(method, url, json=body)
 
     @staticmethod
     def handle_response(response: httpx.Response) -> None:
