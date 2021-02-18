@@ -1,10 +1,13 @@
-"""Module for the core parsing logic of zum."""
+"""
+Module for the core parsing logic of zum.
+"""
 
 from typing import Any, Dict
 
 import tomlkit
 
 from zum.abstractions import Endpoint, Metadata
+from zum.constants import DEFAULT_HTTP_METHOD
 from zum.errors import InvalidConfigFileError
 
 
@@ -17,4 +20,5 @@ def parse_endpoints(endpoints: Dict[str, Any]) -> Dict[str, Endpoint]:
 
 
 def parse_endpoint(data: dict) -> Endpoint:
-    return Endpoint(route=data["route"], method=data["method"])
+    http_method = data["method"] if "method" in data else DEFAULT_HTTP_METHOD
+    return Endpoint(route=data["route"], method=http_method)

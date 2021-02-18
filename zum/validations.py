@@ -1,3 +1,7 @@
+"""
+A module to hold all the validation methods for the zum library.
+"""
+
 from typing import Any, Dict
 
 from zum.errors import InvalidConfigFileError

@@ -1,5 +1,5 @@
 """
-A module for containing the abstractions of zum.
+A module for containing the abstractions of the zum library.
 """
 
 

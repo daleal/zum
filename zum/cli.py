@@ -1,5 +1,5 @@
 """
-A module to route the CLI traffic.
+A module to route the zum CLI traffic.
 """
 
 import sys
@@ -7,7 +7,7 @@ from argparse import ArgumentParser, _SubParsersAction
 from typing import Any, List
 
 import zum
-from zum.executor import Executor
+from zum.core import Executor
 
 
 def dispatcher(*args: Any, **kwargs: Any) -> None:

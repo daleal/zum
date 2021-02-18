@@ -1,3 +1,7 @@
+"""
+A module to hold some utilities for the zum library.
+"""
+
 from typing import Any, Dict
 
 import tomlkit

@@ -1,3 +1,7 @@
+"""
+The main module of the zum library.
+"""
+
 import json
 from typing import Any
 
