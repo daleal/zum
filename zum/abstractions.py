@@ -62,11 +62,11 @@ class Endpoint:
         return self.route.format(**params)
 
 
-class Metadata:
+class Metadata:  # pylint: disable=R0903
 
     """
     Class to encapsulate the metadata information.
     """
 
-    def __init__(self, server: str) -> None:  # pylint: disable=R0903
+    def __init__(self, server: str) -> None:
         self.server = server.rstrip("/")
