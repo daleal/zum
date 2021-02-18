@@ -1,0 +1,27 @@
+# Python, linters and tests stuff
+__pycache__
+.mypy_cache
+.pytest_cache
+.coverage
+coverage.xml
+
+# Build stuff
+build/
+dist/
+*.egg
+*.egg-info/
+
+# Editor stuff
+.vscode
+
+# Virtual Environment
+.venv
+
+# Logs
+*.log
+
+# TOML files
+*.toml
+!pyproject.tom
+
+.github
