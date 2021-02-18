@@ -2,8 +2,7 @@
 A module to route the zum CLI traffic.
 """
 
-import sys
-from argparse import ArgumentParser, _SubParsersAction
+from argparse import ArgumentParser
 from typing import Any, List
 
 import zum
