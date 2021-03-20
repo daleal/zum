@@ -60,7 +60,7 @@ This indicates to `zum` that the API endpoints are located at `http://localhost:
 The `endpoints` key contains every endpoint that you want to be able to use from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
 
 ```toml
-[endpoints.endpointname]
+[endpoints.my-endpoint-name]
 route = "/endpoint-name"
 method = "post"
 ```
@@ -68,9 +68,196 @@ method = "post"
 Notice that the header of the section consists of `endpoints.{something}`. **That `{something}` will be the name of your endpoint**. That means that, on the example, to query the endpoint, all you need to do is to run:
 
 ```sh
-zum endpointname
+zum my-endpoint-name
 ```
 
 With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/endpoint-name`. Just 5 lines on a TOML file!
 
 The endpoint configuration will be discussed more on a [dedicated section](#endpoints).
+
+### Endpoints
+
+Up until now, the examples shown are **really** simple. Rarely does an API endpoint not include some parameters on the URL or some request body. The idea of `zum` is to keep everything extremely simple, so let's see how to use URL parameters and the request body.
+
+#### Parameters
+
+Imagine that you have an API with an endpoint `/entity/:id` that returns an entity with the id `:id`. You would probably like to be able to just `zum entity 3` to get the entity with `:id` corresponding to `3`. Well, that's **exactly** what `zum` does. Let's first define the endpoint:
+
+```toml
+[endpoints.my-entity]
+route = "/entity/{id}"
+method = "get"
+params = ["id"]
+```
+
+This configuration tells `zum` that it should replace the route string `{id}` for whatever `id` it receives from the command line as an argument (the command for that configuration should be `zum my-entity 3`). That makes sense. But why is the `params` value an array? Well, let's imagine that you want to search for all the appearances of some string on the entity model. The API endpoint will probably receive a `?query=` parameter. So let's describe this new endpoint:
+
+```toml
+[endpoints.search]
+route = "/entity/{id}?query={query}"
+method = "get"
+params = ["id", "query"]
+```
+
+Now, you can run something like:
+
+```sh
+zum search 3 mystring
+```
+
+This will search `"mystring"` on the entity with id `3`. **But order matters**. Let's imagine that to you, it makes more sense to write the query string first. Then, your definition should be:
+
+```toml
+[endpoints.search]
+route = "/entity/{id}?query={query}"
+method = "get"
+params = ["query", "id"]
+```
+
+Now, you can run something like:
+
+```sh
+zum search mystring 3
+```
+
+The query will be exactly the same. **This means that the array tells `zum` in which order to interpret the CLI parameters**.
+
+#### Request body
+
+Just like the parameters, the request body gets defined as an array:
+
+```toml
+[endpoints.create-entity]
+route = "/entity"
+method = "post"
+body = ["name", "city"]
+```
+
+To run this endpoint, you just need to run:
+
+```sh
+zum create-entity dani Santiago
+```
+
+This will send a `POST` request to `http://localhost:8000/entity` with the following request body:
+
+```json
+{
+    "name": "dani",
+    "city": "Santiago"
+}
+```
+
+As always, order matters.
+
+```toml
+[endpoints.create-entity]
+route = "/entity"
+method = "post"
+body = ["city", "name"]
+```
+
+Now, to get the same result as before, you should run:
+
+```sh
+zum create-entity Santiago dani
+```
+
+#### What about both?
+
+Of course, sometimes you need to use both parameters **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter and the new entity data as a request body. Let's describe this situation!
+
+```toml
+[endpoints.create-nested]
+route = "/entity/{id}"
+method = "post"
+params = ["id"]
+body = ["name", "city"]
+```
+
+Now, you can call the endpoint using:
+
+```sh
+zum create-nested 69 dani Santiago
+```
+
+This will call `POST /entity/69` with the following request body:
+
+```json
+{
+    "name": "dani",
+    "city": "Santiago"
+}
+```
+
+As you can probably tell, `zum` receives the `params` first on the CLI, and then the `body`. In _pythonic_ terms, what `zum` does is kind of _unpacks_ both arrays consecutively, something like the following:
+
+```py
+arguments = [*params, *body]
+zum(arguments)
+```
+
+## `zum.toml` example
+
+Here's a simple `zum.toml` file example:
+
+```toml
+[metadata]
+server = "http://localhost:8000"
+
+[endpoints.my-entity]
+route = "/entity/{id}"
+method = "get"
+params = ["id"]
+
+[endpoints.search]
+route = "/entity/{id}?query={query}"
+method = "get"
+params = ["id", "query"]
+
+[endpoints.create-entity]
+route = "/entity"
+method = "post"
+body = ["name", "city"]
+
+[endpoints.create-nested]
+route = "/entity/{id}"
+method = "post"
+params = ["id"]
+body = ["name", "city"]
+```
+
+With that config file (using a hypothetical existing API), you could `GET /entity/420` to get the entity with id `420`, `GET /entity/420?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `420`, `POST /entity` with some request body to create a new entity and `POST /entity/69` with some request body to create a new nested entity, child of the entity with id `69`.
+
+## Developing
+
+Clone the repository:
+
+```sh
+git clone https://github.com/daleal/zum.git
+
+cd zum
+```
+
+Recreate environment:
+
+```sh
+make get-poetry
+make venv-with-dependencies
+```
+
+Run the linters:
+
+```sh
+make black flake8 isort mypy pylint
+```
+
+Run the tests:
+
+```sh
+make tests
+```
+
+## Resources
+
+- [Issue Tracker](https://github.com/daleal/zum/issues/)
