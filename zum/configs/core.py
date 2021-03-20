@@ -35,7 +35,7 @@ def validate_metadata(configs: Dict[str, Any]) -> None:
         raise InvalidConfigFileError("Missing 'metadata' section of the config file")
     if "server" not in configs["metadata"]:
         raise InvalidConfigFileError(
-            "Missing 'server' value from the 'metadata' section"
+            "Missing 'server' value from the 'metadata' section of the config file"
         )
 
 
@@ -44,4 +44,6 @@ def validate_endpoints(configs: Dict[str, Any]) -> None:
     if "endpoints" not in configs:
         raise InvalidConfigFileError("Missing 'endpoints' section of the config file")
     if len(configs["endpoints"]) == 0:
-        raise InvalidConfigFileError("At least one endpoint is required")
+        raise InvalidConfigFileError(
+            "At least one endpoint is required on the config file"
+        )
