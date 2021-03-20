@@ -11,7 +11,10 @@ class TestRequestModel:
             "body": {},
         }
         self.simple_route = "/example"
-        self.complex_route = f"/example/{self.complex['params']['id']}?query={self.complex['params']['query']}"
+        self.complex_route = (
+            f"/example/{self.complex['params']['id']}"
+            f"?query={self.complex['params']['query']}"
+        )
 
     def test_simple_request_route_interpolation(self):
         request = Request(**self.simple)
