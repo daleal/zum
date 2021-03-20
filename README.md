@@ -24,4 +24,53 @@
 </a>
 </p>
 
-**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe an API using a `toml` file and then call that API using your command line. This means that **the days of writing custom scripts to help you develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
+**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe an API using a [TOML](https://toml.io/en/) file and then call that API using your command line. This means that **the days of writing custom scripts to help you develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
+
+## Installing
+
+Install using pip!
+
+```sh
+pip install zum
+```
+
+## Usage
+
+### The config file
+
+The first thing that you need to do in order to use `zum` is to describe the API that you're trying to ping using a config file, named `zum.toml`. This TOML file should contain the following keys:
+
+#### `metadata`
+
+The `metadata` key contains everything that is not data about an endpoint of the API itself, but that is needed in order to query the API. This key should contain the following values:
+
+- `server`: The base URL where the API is hosted.
+
+As an example, the first lines of your `zum.toml` file for a development environment should probably look similar to this:
+
+```toml
+[metadata]
+server = "http://localhost:8000"
+```
+
+This indicates to `zum` that the API endpoints are located at `http://localhost:8000`. Easy enough, right?
+
+#### `endpoints`
+
+The `endpoints` key contains every endpoint that you want to be able to use from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
+
+```toml
+[endpoints.endpointname]
+route = "/endpoint-name"
+method = "post"
+```
+
+Notice that the header of the section consists of `endpoints.{something}`. **That `{something}` will be the name of your endpoint**. That means that, on the example, to query the endpoint, all you need to do is to run:
+
+```sh
+zum endpointname
+```
+
+With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/endpoint-name`. Just 5 lines on a TOML file!
+
+The endpoint configuration will be discussed more on a [dedicated section](#endpoints).
