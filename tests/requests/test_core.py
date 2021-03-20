@@ -1,6 +1,6 @@
 import pytest
 
-from zum.requests.core import reduce_arguments, generate_request
+from zum.requests.core import generate_request, reduce_arguments
 from zum.requests.errors import MissingEndpointParamsError
 from zum.requests.models import Request
 
@@ -21,6 +21,11 @@ class TestReduceArguments:
                 "remaining": [4, 5],
             },
         }
+
+    def test_empty_args(self):
+        processed, remaining = reduce_arguments(None, self.perfect_args)
+        assert processed == {}
+        assert remaining == self.perfect_args
 
     def test_short_args(self):
         with pytest.raises(MissingEndpointParamsError):
