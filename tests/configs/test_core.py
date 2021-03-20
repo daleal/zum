@@ -3,11 +3,11 @@ import os
 import pytest
 
 from zum.configs.core import (
-    search_for_config_file,
     retrieve_config_file,
+    search_for_config_file,
+    validate_configs,
     validate_endpoints,
     validate_metadata,
-    validate_configs,
 )
 from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 
