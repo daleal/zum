@@ -7,6 +7,7 @@ from zum.configs.core import (
     retrieve_config_file,
     validate_endpoints,
     validate_metadata,
+    validate_configs,
 )
 from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 
@@ -48,6 +49,19 @@ class TestRetrieveConfigFile:
         with open(config_file.strpath, "w") as raw_config_file:
             raw_config_file.write(self.content)
         assert retrieve_config_file(config_file.strpath) == self.parsed
+
+
+class TestValidateConfigs:
+    # Just tests that a valid config passes, as the sub-methods are tested
+    # against errors and invalid formats
+    def setup_method(self):
+        self.config = {
+            "metadata": {"server": "http://localhost:8000"},
+            "endpoints": {"example": {"path": "/example", "method": "get"}},
+        }
+
+    def test_valid_config(self):
+        validate_configs(self.config)
 
 
 class TestValidateMetadata:
