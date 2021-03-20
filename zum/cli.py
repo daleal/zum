@@ -25,8 +25,12 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
 
 def generate_parser(actions_list: List[str]) -> ArgumentParser:
     """Generates the action parser."""
+    warning = "Beware! No config file was found!" if not actions_list else ""
+
     # Create parser
-    parser = ArgumentParser(description="Command line interface tool for zum.")
+    parser = ArgumentParser(
+        description="Command line interface tool for zum.", epilog=warning
+    )
 
     # Add version command
     parser.add_argument(
@@ -36,11 +40,12 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
         version=f"zum version {zum.__version__}",
     )
 
-    # Add action argument
-    parser.add_argument("action", choices=actions_list, nargs=1)
+    if actions_list:
+        # Add action argument
+        parser.add_argument("action", choices=actions_list, nargs=1)
 
-    # Add params
-    parser.add_argument("params", nargs="*")
+        # Add params
+        parser.add_argument("params", nargs="*")
 
     return parser
 
