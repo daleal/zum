@@ -6,7 +6,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from zum.requests.errors import MissingEndpointParamsError
 from zum.requests.models import Request
-from zum.requests.validations import validate_raw_endpoint
 
 
 def generate_request(raw_endpoint: Dict[str, Any], arguments: List[str]) -> Request:
