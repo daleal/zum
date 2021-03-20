@@ -12,6 +12,7 @@ from zum.configs.core import (
     search_for_config_file,
     validate_configs,
 )
+from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 from zum.constants import CONFIG_FILE_NAME
 from zum.executor import execute
 from zum.requests.core import generate_request
@@ -25,12 +26,19 @@ class Engine:
     """
 
     def __init__(self) -> None:
-        search_for_config_file(CONFIG_FILE_NAME)
-        configs = retrieve_config_file(CONFIG_FILE_NAME)
-        validate_configs(configs)
-        self.__metadata = configs["metadata"]
-        self.__endpoints = configs["endpoints"]
         self.__output: Optional[str] = None
+        self.__exception: Optional[Exception] = None
+
+        try:
+            search_for_config_file(CONFIG_FILE_NAME)
+            configs = retrieve_config_file(CONFIG_FILE_NAME)
+            validate_configs(configs)
+        except (MissingConfigFileError, InvalidConfigFileError) as error:
+            configs = {}
+            self.__exception = error
+
+        self.__metadata = configs.get("metadata", {})
+        self.__endpoints = configs.get("endpoints", {})
 
     @property
     def output(self) -> Optional[str]:
@@ -46,10 +54,16 @@ class Engine:
         """
         Executes the main zum logic.
         """
+        self.__validate_configurations()
         validate_raw_endpoint(self.__endpoints[instruction])
         request = generate_request(self.__endpoints[instruction], arguments)
         response = execute(self.__metadata["server"], request)
         self.__handle_response(response)
+
+    def __validate_configurations(self) -> None:
+        """Validates that the configurations were correctly loaded."""
+        if self.__exception:
+            raise self.__exception
 
     def __handle_response(self, response: httpx.Response) -> None:
         """Handles the response."""
