@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/daleal/zum">
+        <img src="https://zum.daleal.dev/assets/zum-250x250.png">
+    </a>
+</p>
+
 <h1 align="center">Zum</h1>
 
 <p align="center">
