@@ -22,7 +22,7 @@ class TestReduceArguments:
             },
         }
 
-    def test_empty_args(self):
+    def test_empty_keys(self):
         processed, remaining = reduce_arguments(None, self.perfect_args)
         assert processed == {}
         assert remaining == self.perfect_args
