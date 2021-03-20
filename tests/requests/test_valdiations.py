@@ -2,9 +2,42 @@ import pytest
 
 from zum.requests.errors import InvalidEndpointDefinitionError
 from zum.requests.validations import (
+    validate_raw_endpoint,
     validate_raw_endpoint_method,
     validate_raw_endpoint_route,
 )
+
+
+class TestRawEndpointValidation:
+    # Just tests that a valid raw endpont passes, as the sub-methods are
+    # tested against errors and invalid formats
+    def setup_method(self):
+        self.raw_endpoint = {"method": "get", "route": "/valid"}
+
+    def test_valid_raw_endpoint(self):
+        validate_raw_endpoint(self.raw_endpoint)
+
+
+class TestRawEndpointRouteValidation:
+    def setup_method(self):
+        self.missing = {"some": "thing"}
+        self.invalid_type = {"route": 4}
+        self.valid = {"route": "/valid"}
+
+    def test_missing_route(self):
+        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
+            validate_raw_endpoint_route(self.missing)
+        assert "Missing 'route' attribute" in str(excinfo.value)
+
+    def test_invalid_type_route(self):
+        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
+            validate_raw_endpoint_route(self.invalid_type)
+        assert "The 'route' attribute of the endpoint must be a string" in str(
+            excinfo.value
+        )
+
+    def test_valid_route(self):
+        validate_raw_endpoint_route(self.valid)
 
 
 class TestRawEndpointMethodValidation:
@@ -40,25 +73,3 @@ class TestRawEndpointMethodValidation:
 
     def test_uppercased_valid_method(self):
         validate_raw_endpoint_method(self.uppercased_valid)
-
-
-class TestRawEndpointRouteValidation:
-    def setup_method(self):
-        self.missing = {"some": "thing"}
-        self.invalid_type = {"route": 4}
-        self.valid = {"route": "/valid"}
-
-    def test_missing_route(self):
-        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
-            validate_raw_endpoint_route(self.missing)
-        assert "Missing 'route' attribute" in str(excinfo.value)
-
-    def test_invalid_type_route(self):
-        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
-            validate_raw_endpoint_route(self.invalid_type)
-        assert "The 'route' attribute of the endpoint must be a string" in str(
-            excinfo.value
-        )
-
-    def test_valid_route(self):
-        validate_raw_endpoint_route(self.valid)
