@@ -13,7 +13,7 @@ from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 def search_for_config_file(file_name: str) -> None:
     """Searches for the config file. If it doesn't exist, raises an error."""
     if not Path(file_name).is_file():
-        raise MissingConfigFileError(f"Missing config file {file_name}.")
+        raise MissingConfigFileError(f"Missing config file '{file_name}'.")
 
 
 def retrieve_config_file(file_name: str) -> Dict[str, Any]:

@@ -7,9 +7,13 @@ from typing import Any, Dict, List
 
 import httpx
 
+from zum.constants import CONFIG_FILE_NAME
 from zum.parser import parse_endpoints, parse_metadata
-from zum.utils import read_config_file
-from zum.validations import validate_configs
+from zum.configs.core import (
+    validate_configs,
+    search_for_config_file,
+    retrieve_config_file,
+)
 
 
 class Executor:
@@ -19,7 +23,8 @@ class Executor:
     """
 
     def __init__(self) -> None:
-        configs = read_config_file()
+        search_for_config_file(CONFIG_FILE_NAME)
+        configs = retrieve_config_file(CONFIG_FILE_NAME)
         validate_configs(configs)
         self.metadata = parse_metadata(configs["metadata"])
         self.endpoints = parse_endpoints(configs["endpoints"])
