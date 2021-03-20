@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/daleal/zum">
+        <img src="https://zum.daleal.dev/assets/zum-250x250.png">
+    </a>
+</p>
+
 <h1 align="center">Zum</h1>
 
 <p align="center">
@@ -57,7 +63,7 @@ This indicates to `zum` that the API endpoints are located at `http://localhost:
 
 #### `endpoints`
 
-The `endpoints` key contains every endpoint that you want to be able to use from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
+The `endpoints` key contains every endpoint that you want to be able to access from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
 
 ```toml
 [endpoints.my-endpoint-name]
