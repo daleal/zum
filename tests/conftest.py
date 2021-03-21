@@ -15,8 +15,8 @@ def patch_request(monkeypatch):
             self.url = url
             self.args = args
             self.kwargs = kwargs
-            self._error = TypeError if method is None else None
-            self._error_text = "No method specified"
+            self._error = TypeError if "http" not in url else None
+            self._error_text = f"No URL specified for method '{self.method}'"
 
         @property
         def text(self):
