@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/daleal/zum">
-        <img src="https://zum.daleal.dev/assets/zum-250x250.png">
+        <img src="https://zum.daleal.dev/assets/zum-500x500.png">
     </a>
 </p>
 
@@ -152,6 +152,8 @@ This will send a `GET` request to `http://localhost:8000/entity` with the follow
     "Authorization": "Bearer super-secret-token"
 }
 ```
+
+⚠ **WARNING**: Notice that, for the first time, we surrounded something with quotes. The reason we did this is that on the console, if you want to pass a string that includes a space as a parameter, it would be read as two different parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter, with the space included inside that parameter. This will be handy on future examples, so **keep it in mind**.
 
 #### Request body
 
