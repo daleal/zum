@@ -5,7 +5,6 @@ import pytest
 from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 from zum.engine import Engine
 
-
 # This tests will only test behaviour, as the module being tested
 # is a behavoiural-driven module, and hides some of its details to
 # the exterior of the interface.

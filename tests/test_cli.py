@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 import pytest
 
 import zum
-from zum.cli import generate_parser, dispatcher, log
+from zum.cli import dispatcher, generate_parser, log
 
 
 class TestGenerateParser:

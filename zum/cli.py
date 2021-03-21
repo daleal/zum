@@ -6,7 +6,6 @@ from argparse import ArgumentParser
 from typing import Any, List, Optional
 
 import zum
-from zum.constants import CONFIG_FILE_NAME
 from zum.engine import Engine
 
 
