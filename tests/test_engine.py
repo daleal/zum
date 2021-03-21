@@ -5,6 +5,7 @@ import pytest
 from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 from zum.engine import Engine
 
+
 # This tests will only test behaviour, as the module being tested
 # is a behavoiural-driven module, and hides some of its details to
 # the exterior of the interface.
@@ -43,6 +44,32 @@ class TestEngineValidation:
         engine._validate_configurations()
 
 
+class TestEngineActionsList:
+    def setup_method(self):
+        self.multiple_actions = (
+            "[metadata]\n"
+            "server = 'http://localhost:8000'\n"
+            "[endpoints.test]\n"
+            "route = '/test'\n"
+            "method = 'get'\n"
+            "[endpoints.second-test]\n"
+            "route = '/second-test'\n"
+            "method = 'get'\n"
+        )
+
+    def test_no_config(self, tmpdir):
+        config_file = tmpdir.join("zum.toml")
+        engine = Engine(config_file.strpath)
+        assert engine.actions == []
+
+    def test_multiple_actions(self, tmpdir):
+        config_file = tmpdir.join("zum.toml")
+        with open(config_file.strpath, "w") as raw_config_file:
+            raw_config_file.write(self.multiple_actions)
+        engine = Engine(config_file.strpath)
+        assert "test" in engine.actions and "second-test" in engine.actions
+
+
 class TestExecutionBehaviour:
     @pytest.fixture(autouse=True)
     def patch_request(self, patch_request):
@@ -67,7 +94,7 @@ class TestExecutionBehaviour:
             "url": "http://localhost:8000/test",
             "method": "get",
             "json": {},
-            "headers": {},
+            "headers": {}
         }
         self.invalid_output = "No URL specified for method 'post'"
 
