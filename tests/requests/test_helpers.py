@@ -4,7 +4,7 @@ from zum.requests.errors import (
     InvalidBodyParameterTypeError,
     MissingEndpointParamsError,
 )
-from zum.requests.helpers import cast_value, reduce_arguments, cast_parameter
+from zum.requests.helpers import cast_parameter, cast_value, reduce_arguments
 
 
 class TestReduceArguments:
@@ -50,7 +50,7 @@ class TestCastParameter:
         self.no_type = {"input": [{"name": "key"}, "value"], "output": {"key": "value"}}
         self.casted = {
             "input": [{"name": "key", "type": "integer"}, "69"],
-            "output": {"key": 69}
+            "output": {"key": 69},
         }
 
     def test_string_definition_casting(self):
