@@ -51,7 +51,7 @@ def validate_endpoints(configs: Dict[str, Any]) -> None:
         raise InvalidConfigFileError(
             "The 'endpoints' section shold be a dictionary or mapping."
         )
-    if len(configs["endpoints"].keys()) == 0:
+    if len(list(configs["endpoints"].keys())) == 0:
         raise InvalidConfigFileError(
             "At least one endpoint is required on the config file"
         )
