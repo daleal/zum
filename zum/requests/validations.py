@@ -57,5 +57,5 @@ def validate_body_parameter_definition(definition: Union[str, Dict[str, str]]) -
             )
         if "type" in definition and definition["type"] not in REQUEST_BODY_VALUE_TYPES:
             raise InvalidEndpointDefinitionError(
-                f"Invalid type definition for body parameter {definition['name']}"
+                f"Invalid type definition for body parameter '{definition['name']}'"
             )

@@ -58,13 +58,13 @@ def cast_value(value: str, casting_type: str) -> Any:
     if casting_type == "boolean":
         if value not in ["true", "false"]:
             raise InvalidBodyParameterTypeError(
-                f"Booleans can't be {value}, only 'true' or 'false'"
+                f"Booleans can't be '{value}', only 'true' or 'false'"
             )
         return value == "true"
     if casting_type == "null":
         if value != "null":
             raise InvalidBodyParameterTypeError(
-                f"Null parameters can't be {value}, only 'null'"
+                f"Null parameters can't be '{value}', only 'null'"
             )
         return None
     return value  # String

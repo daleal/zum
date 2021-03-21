@@ -1,7 +1,7 @@
 import pytest
 
-from zum.requests.helpers import reduce_arguments
-from zum.requests.errors import MissingEndpointParamsError
+from zum.requests.helpers import reduce_arguments, cast_value
+from zum.requests.errors import MissingEndpointParamsError, InvalidBodyParameterTypeError
 
 
 class TestReduceArguments:
@@ -39,3 +39,67 @@ class TestReduceArguments:
         processed, remaining = reduce_arguments(self.keys, self.long_args)
         assert processed == self.output["long"]["processed"]
         assert remaining == self.output["long"]["remaining"]
+
+
+class TestCastValue:
+    def setup_method(self):
+        self.integer = {
+            "input": ["420", "integer"],
+            "output": 420
+        }
+        self.float = {
+            "input": ["6.9", "float"],
+            "output": 6.9
+        }
+        self.invalid_boolean = ["invalid", "boolean"]
+        self.true = {
+            "input": ["true", "boolean"],
+            "output": True
+        }
+        self.false = {
+            "input": ["false", "boolean"],
+            "output": False
+        }
+        self.invalid_null = ["invalid", "null"]
+        self.null = {
+            "input": ["null", "null"],
+            "output": None
+        }
+        self.string = {
+            "input": ["valid", "string"],
+            "output": "valid"
+        }
+
+    def test_integer(self):
+        output = cast_value(*self.integer["input"])
+        assert output == self.integer["output"]
+
+    def test_float(self):
+        output = cast_value(*self.float["input"])
+        assert output == self.float["output"]
+
+    def test_invalid_boolean(self):
+        with pytest.raises(InvalidBodyParameterTypeError) as excinfo:
+            cast_value(*self.invalid_boolean)
+        assert "only 'true' or 'false'" in str(excinfo.value)
+
+    def test_true_boolean(self):
+        output = cast_value(*self.true["input"])
+        assert output == self.true["output"]
+
+    def test_false_boolean(self):
+        output = cast_value(*self.false["input"])
+        assert output == self.false["output"]
+
+    def test_invalid_null(self):
+        with pytest.raises(InvalidBodyParameterTypeError) as excinfo:
+            cast_value(*self.invalid_null)
+        assert "only 'null'" in str(excinfo.value)
+
+    def test_null(self):
+        output = cast_value(*self.null["input"])
+        assert output == self.null["output"]
+
+    def test_string(self):
+        output = cast_value(*self.string["input"])
+        assert output == self.string["output"]
