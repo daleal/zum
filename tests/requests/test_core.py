@@ -28,5 +28,6 @@ class TestGenerateRequest:
         request = generate_request(self.raw_endpoint, self.arguments)
         assert isinstance(request, Request)
         assert request.params == self.params
+        assert request.headers == {}
         assert request.body == self.body
         assert request.route == self.expected_route

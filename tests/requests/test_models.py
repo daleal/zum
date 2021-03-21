@@ -3,11 +3,18 @@ from zum.requests.models import Request
 
 class TestRequestModel:
     def setup_method(self):
-        self.simple = {"route": "/example", "method": "get", "params": {}, "body": {}}
+        self.simple = {
+            "route": "/example",
+            "method": "get",
+            "params": {},
+            "headers": {},
+            "body": {},
+        }
         self.complex = {
             "route": "/example/{id}?query={query}",
             "method": "get",
             "params": {"query": "nais", "id": 69},
+            "headers": {},
             "body": {},
         }
         self.simple_route = "/example"

@@ -15,12 +15,14 @@ class Request:
         self,
         route: str,
         method: str,
-        params: Dict[str, Any],
+        params: Dict[str, str],
+        headers: Dict[str, str],
         body: Dict[str, Any],
     ) -> None:
         self._route = route
         self.method = method
         self.params = params
+        self.headers = headers
         self.body = body
 
     @property
