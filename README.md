@@ -128,6 +128,31 @@ zum search mystring 3
 
 The query will be exactly the same. **This means that the array tells `zum` in which order to interpret the CLI parameters**.
 
+#### Headers
+
+Just like the parameters, the headers get defined as an array:
+
+```toml
+[endpoints.restricted]
+route = "/secret"
+method = "get"
+headers = ["Authorization"]
+```
+
+To run this endpoint, you just need to run:
+
+```sh
+zum restricted "Bearer super-secret-token"
+```
+
+This will send a `GET` request to `http://localhost:8000/entity` with the following headers:
+
+```json
+{
+    "Authorization": "Bearer super-secret-token"
+}
+```
+
 #### Request body
 
 Just like the parameters, the request body gets defined as an array:
