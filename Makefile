@@ -5,8 +5,8 @@ POETRY_VERSION = 1.1.5
 get-poetry:
 	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 - --version $(POETRY_VERSION)
 
-.PHONY: venv-with-dependencies
-venv-with-dependencies:
+.PHONY: build-env
+build-env:
 	python3 -m venv .venv
 	poetry run pip install --upgrade pip
 	poetry run poetry install

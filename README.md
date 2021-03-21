@@ -337,7 +337,7 @@ Recreate environment:
 
 ```sh
 make get-poetry
-make venv-with-dependencies
+make build-env
 ```
 
 Run the linters:
