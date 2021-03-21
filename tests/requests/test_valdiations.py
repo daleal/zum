@@ -2,6 +2,7 @@ import pytest
 
 from zum.requests.errors import InvalidEndpointDefinitionError
 from zum.requests.validations import (
+    validate_body_parameter_definition,
     validate_raw_endpoint,
     validate_raw_endpoint_method,
     validate_raw_endpoint_route,
@@ -73,3 +74,30 @@ class TestRawEndpointMethodValidation:
 
     def test_uppercased_valid_method(self):
         validate_raw_endpoint_method(self.uppercased_valid)
+
+
+class TestBodyParameterDefinitionValidation:
+    def setup_method(self):
+        self.invalid_parameter = ["asdf"]
+        self.no_name = {"type": "integer"}
+        self.invalid_type = {"name": "test", "type": "invalid"}
+        self.valid = ["valid", {"name": "valid"}, {"name": "valid", "type": "integer"}]
+
+    def test_invalid_parameter(self):
+        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
+            validate_body_parameter_definition(self.invalid_parameter)
+        assert "should be a string or an object" in str(excinfo.value)
+
+    def test_no_name(self):
+        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
+            validate_body_parameter_definition(self.no_name)
+        assert "A name is required for every endpoint" in str(excinfo.value)
+
+    def test_invalid_type(self):
+        with pytest.raises(InvalidEndpointDefinitionError) as excinfo:
+            validate_body_parameter_definition(self.invalid_type)
+        assert "Invalid type definition" in str(excinfo.value)
+
+    def test_valid_parameter_definitions(self):
+        for parameter in self.valid:
+            validate_body_parameter_definition(parameter)

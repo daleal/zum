@@ -169,6 +169,56 @@ Now, to get the same result as before, you should run:
 zum create-entity Santiago dani
 ```
 
+**But what about types?** On the examples above, all the request body parameters are being sent **as strings**. Of course, you can cast the values to some types. The supported types are:
+
+- `string`
+- `integer`
+- `float`
+- `boolean` (`true` or `false`)
+- `null`
+
+To declare a type, let's imagine you have an API endpoint that receives two numbers `number1` and `number2` and adds them together. To describe this endpoint, you can use the following description:
+
+```toml
+[endpoints.add]
+route = "/add"
+method = "post"
+body = [
+    { name = "number1", type = "integer" },
+    { name = "number2", type = "integer" }
+]
+```
+
+Now, when you run
+
+```sh
+zum add 5 8
+```
+
+The request body will be:
+
+```json
+{
+    "number1": 5,
+    "number2": 8
+}
+```
+
+Keep in mind that you can _mix and match_ the definitions. You can even define the parameter with the object notation and not include its type. You could define, for example:
+
+```toml
+[endpoints.example]
+route = "/example"
+method = "post"
+body = [
+    "parameter1",
+    { name = "parameter2", type = "boolean" },
+    { name = "parameter3" }
+]
+```
+
+Now, `parameter1` will be sent as a string, `parameter2` will be casted as a boolean and `parameter3` will be sent as a string.
+
 #### What about both?
 
 Of course, sometimes you need to use both parameters **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter and the new entity data as a request body. Let's describe this situation!
