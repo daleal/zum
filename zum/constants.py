@@ -20,3 +20,12 @@ HTTP_METHODS = [
     "patch",
     "trace",
 ]
+
+# Request body value types
+REQUEST_BODY_VALUE_TYPES = [
+    "string",
+    "integer",
+    "float",
+    "boolean",
+    "null"
+]
