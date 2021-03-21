@@ -4,6 +4,11 @@ from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
 from zum.engine import Engine
 
 
+# This tests will only test behaviour, as the module being tested
+# is a behavoiural-driven module, and hides some of its details to
+# the exterior of the interface.
+
+
 class TestEngineValidation:
     def setup_method(self):
         self.valid_config = (
@@ -19,7 +24,7 @@ class TestEngineValidation:
         with pytest.raises(MissingConfigFileError):
             config_file = tmpdir.join("zum.toml")
             engine = Engine(config_file.strpath)
-            engine._Engine__validate_configurations()
+            engine._validate_configurations()
 
     def test_invalid_config(self, tmpdir):
         with pytest.raises(InvalidConfigFileError):
@@ -27,11 +32,11 @@ class TestEngineValidation:
             with open(config_file.strpath, "w") as raw_config_file:
                 raw_config_file.write(self.invalid_config)
             engine = Engine(config_file.strpath)
-            engine._Engine__validate_configurations()
+            engine._validate_configurations()
 
     def test_valid_config(self, tmpdir):
         config_file = tmpdir.join("zum.toml")
         with open(config_file.strpath, "w") as raw_config_file:
             raw_config_file.write(self.valid_config)
         engine = Engine(config_file.strpath)
-        engine._Engine__validate_configurations()
+        engine._validate_configurations()
