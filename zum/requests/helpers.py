@@ -48,7 +48,7 @@ def cast_parameter(
     try:
         return {definition["name"]: cast_value(value, definition["type"])}
     except ValueError:
-        raise InvalidBodyParameterTypeError(
+        raise InvalidBodyParameterTypeError(  # pylint: disable=W0707
             f"Parameter '{value}' can't be casted to '{definition['type']}'"
         )
 
