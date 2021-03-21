@@ -52,6 +52,7 @@ class TestCastParameter:
             "input": [{"name": "key", "type": "integer"}, "69"],
             "output": {"key": 69},
         }
+        self.invalid_casting = [{"name": "key", "type": "integer"}, "invalid"]
 
     def test_string_definition_casting(self):
         output = cast_parameter(*self.string["input"])
@@ -64,6 +65,11 @@ class TestCastParameter:
     def test_casted_definition_casting(self):
         output = cast_parameter(*self.casted["input"])
         assert output == self.casted["output"]
+
+    def test_invalid_casting(self):
+        with pytest.raises(InvalidBodyParameterTypeError) as excinfo:
+            cast_parameter(*self.invalid_casting)
+        assert "can't be casted" in str(excinfo.value)
 
 
 class TestCastValue:

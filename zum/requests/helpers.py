@@ -46,7 +46,12 @@ def cast_parameter(
         return {definition: value}
     if "type" not in definition:
         return {definition["name"]: value}
-    return {definition["name"]: cast_value(value, definition["type"])}
+    try:
+        return {definition["name"]: cast_value(value, definition["type"])}
+    except ValueError:
+        raise InvalidBodyParameterTypeError(
+            f"Parameter '{value}' can't be casted to '{definition['type']}'"
+        )
 
 
 def cast_value(value: str, casting_type: str) -> Any:
