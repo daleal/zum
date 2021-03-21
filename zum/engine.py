@@ -25,13 +25,13 @@ class Engine:
     Class to handle the overall behaviour of zum.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, config_file_name: str = CONFIG_FILE_NAME) -> None:
         self.__output: Optional[str] = None
         self.__exception: Optional[Exception] = None
 
         try:
-            search_for_config_file(CONFIG_FILE_NAME)
-            configs = retrieve_config_file(CONFIG_FILE_NAME)
+            search_for_config_file(config_file_name)
+            configs = retrieve_config_file(config_file_name)
             validate_configs(configs)
         except (MissingConfigFileError, InvalidConfigFileError) as error:
             configs = {}
