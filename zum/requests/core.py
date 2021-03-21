@@ -16,5 +16,8 @@ def generate_request(raw_endpoint: Dict[str, Any], arguments: List[str]) -> Requ
     params, remaining_arguments = reduce_arguments(
         raw_endpoint.get("params"), arguments
     )
+    headers, remaining_arguments = reduce_arguments(
+        raw_endpoint.get("headers"), remaining_arguments
+    )
     body, _ = reduce_arguments(raw_endpoint.get("body"), remaining_arguments)
-    return Request(raw_endpoint["route"], raw_endpoint["method"], params, body)
+    return Request(raw_endpoint["route"], raw_endpoint["method"], params, headers, body)

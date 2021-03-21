@@ -128,9 +128,36 @@ zum search mystring 3
 
 The query will be exactly the same. **This means that the array tells `zum` in which order to interpret the CLI parameters**.
 
+#### Headers
+
+Just like the parameters, the headers get defined as an array:
+
+```toml
+[endpoints.restricted]
+route = "/secret"
+method = "get"
+headers = ["Authorization"]
+```
+
+To run this endpoint, you just need to run:
+
+```sh
+zum restricted "Bearer super-secret-token"
+```
+
+This will send a `GET` request to `http://localhost:8000/entity` with the following headers:
+
+```json
+{
+    "Authorization": "Bearer super-secret-token"
+}
+```
+
+⚠ **WARNING**: Notice that, for the first time, we surrounded something with quotes. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
+
 #### Request body
 
-Just like the parameters, the request body gets defined as an array:
+Just like the parameters and headers, the request body gets defined as an array:
 
 ```toml
 [endpoints.create-entity]
@@ -219,25 +246,34 @@ body = [
 
 Now, `parameter1` will be sent as a string, `parameter2` will be casted as a boolean and `parameter3` will be sent as a string.
 
-#### What about both?
+#### What about using all of the above?
 
-Of course, sometimes you need to use both parameters **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter and the new entity data as a request body. Let's describe this situation!
+Of course, sometimes you need to use parameters, headers **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter, the authorization headers and the new entity data as a request body. Let's describe this situation!
 
 ```toml
 [endpoints.create-nested]
 route = "/entity/{id}"
 method = "post"
 params = ["id"]
+headers = ["Authorization"]
 body = ["name", "city"]
 ```
 
 Now, you can call the endpoint using:
 
 ```sh
-zum create-nested 69 dani Santiago
+zum create-nested 69 "Bearer super-secret-token" dani Santiago
 ```
 
-This will call `POST /entity/69` with the following request body:
+This will call `POST /entity/69` with the following headers:
+
+```json
+{
+    "Authorization": "Bearer super-secret-token"
+}
+```
+
+And the following request body:
 
 ```json
 {
@@ -246,10 +282,10 @@ This will call `POST /entity/69` with the following request body:
 }
 ```
 
-As you can probably tell, `zum` receives the `params` first on the CLI, and then the `body`. In _pythonic_ terms, what `zum` does is kind of _unpacks_ both arrays consecutively, something like the following:
+As you can probably tell, `zum` receives the `params` first on the CLI, then the `headers` and then the `body`. In _pythonic_ terms, what `zum` does is kind of _unpacks_ the three arrays consecutively, something like the following:
 
 ```py
-arguments = [*params, *body]
+arguments = [*params, *headers, *body]
 zum(arguments)
 ```
 
@@ -274,16 +310,18 @@ params = ["id", "query"]
 [endpoints.create-entity]
 route = "/entity"
 method = "post"
+headers = ["Authorization"]
 body = ["name", "city"]
 
 [endpoints.create-nested]
 route = "/entity/{id}"
 method = "post"
 params = ["id"]
+headers = ["Authorization"]
 body = ["name", "city"]
 ```
 
-With that config file (using a hypothetical existing API), you could `GET /entity/420` to get the entity with id `420`, `GET /entity/420?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `420`, `POST /entity` with some request body to create a new entity and `POST /entity/69` with some request body to create a new nested entity, child of the entity with id `69`.
+With that config file (using a hypothetical existing API), you could `GET /entity/420` to get the entity with id `420`, `GET /entity/420?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `420`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/69` with an authorization header and some request body to create a new nested entity, child of the entity with id `69`.
 
 ## Developing
 
