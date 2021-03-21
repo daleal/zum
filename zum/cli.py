@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from typing import Any, List, Optional
 
 import zum
+from zum.constants import CONFIG_FILE_NAME
 from zum.engine import Engine
 
 
@@ -19,8 +20,8 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
     parser = generate_parser(engine.actions)
     parsed_args = parser.parse_args(*args, **kwargs)
 
-    engine.execute(parsed_args.action[0], parsed_args.params)
-    log(engine.output)
+    engine.execute(parsed_args.action[0], parsed_args.params)  # pragma: nocover
+    log(engine.output)  # pragma: nocover
 
 
 def generate_parser(actions_list: List[str]) -> ArgumentParser:

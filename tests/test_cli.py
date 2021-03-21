@@ -1,6 +1,9 @@
 from argparse import ArgumentParser
 
-from zum.cli import generate_parser
+import pytest
+
+import zum
+from zum.cli import generate_parser, dispatcher, log
 
 
 class TestGenerateParser:
@@ -34,3 +37,33 @@ class TestGenerateParser:
         captured = capsys.readouterr().out
         assert "No config file" not in captured
         assert f"{{{','.join(self.multiple_actions)}}}" in captured
+
+
+class TestDispatcher:
+    def setup_method(self):
+        self.invalid_config = (
+            "[metadata]\n"
+            "server = ''\n"
+            "[endpoints.test]\n"
+            "route = '/test'\n"
+            "method = 'get'\n"
+        )
+
+    def test_help_flag(self, capsys):
+        with pytest.raises(SystemExit):
+            dispatcher(["--help"])
+        captured = capsys.readouterr().out
+        assert "Command line interface tool for zum." in captured
+
+    def test_version_flag(self, capsys):
+        with pytest.raises(SystemExit):
+            dispatcher(["--version"])
+        captured = capsys.readouterr().out
+        assert f"zum version {zum.__version__}" in captured
+
+
+class TestLogger:
+    def test_logger(self, capsys):
+        log("test")
+        captured = capsys.readouterr().out
+        assert "test" in captured

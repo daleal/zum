@@ -94,7 +94,7 @@ class TestExecutionBehaviour:
             "url": "http://localhost:8000/test",
             "method": "get",
             "json": {},
-            "headers": {}
+            "headers": {},
         }
         self.invalid_output = "No URL specified for method 'post'"
 
