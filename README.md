@@ -204,6 +204,21 @@ The request body will be:
 }
 ```
 
+Keep in mind that you can _mix and match_ the definitions. You can even define the parameter with the object notation and not include its type. You could define, for example:
+
+```toml
+[endpoints.example]
+route = "/example"
+method = "post"
+body = [
+    "parameter1",
+    { name = "parameter2", type = "boolean" },
+    { name = "parameter3" }
+]
+```
+
+Now, `parameter1` will be sent as a string, `parameter2` will be casted as a boolean and `parameter3` will be sent as a string.
+
 #### What about both?
 
 Of course, sometimes you need to use both parameters **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter and the new entity data as a request body. Let's describe this situation!
