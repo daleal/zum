@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zum"
-version = "0.0.3"
+version = "0.0.4"
 description = "Stop writing scripts to test your APIs. Call them as CLIs instead."
 license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
