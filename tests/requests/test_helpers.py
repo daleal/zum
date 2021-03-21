@@ -1,7 +1,10 @@
 import pytest
 
-from zum.requests.helpers import reduce_arguments, cast_value
-from zum.requests.errors import MissingEndpointParamsError, InvalidBodyParameterTypeError
+from zum.requests.errors import (
+    InvalidBodyParameterTypeError,
+    MissingEndpointParamsError,
+)
+from zum.requests.helpers import cast_value, reduce_arguments
 
 
 class TestReduceArguments:
@@ -43,32 +46,14 @@ class TestReduceArguments:
 
 class TestCastValue:
     def setup_method(self):
-        self.integer = {
-            "input": ["420", "integer"],
-            "output": 420
-        }
-        self.float = {
-            "input": ["6.9", "float"],
-            "output": 6.9
-        }
+        self.integer = {"input": ["420", "integer"], "output": 420}
+        self.float = {"input": ["6.9", "float"], "output": 6.9}
         self.invalid_boolean = ["invalid", "boolean"]
-        self.true = {
-            "input": ["true", "boolean"],
-            "output": True
-        }
-        self.false = {
-            "input": ["false", "boolean"],
-            "output": False
-        }
+        self.true = {"input": ["true", "boolean"], "output": True}
+        self.false = {"input": ["false", "boolean"], "output": False}
         self.invalid_null = ["invalid", "null"]
-        self.null = {
-            "input": ["null", "null"],
-            "output": None
-        }
-        self.string = {
-            "input": ["valid", "string"],
-            "output": "valid"
-        }
+        self.null = {"input": ["null", "null"], "output": None}
+        self.string = {"input": ["valid", "string"], "output": "valid"}
 
     def test_integer(self):
         output = cast_value(*self.integer["input"])

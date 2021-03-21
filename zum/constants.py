@@ -22,10 +22,4 @@ HTTP_METHODS = [
 ]
 
 # Request body value types
-REQUEST_BODY_VALUE_TYPES = [
-    "string",
-    "integer",
-    "float",
-    "boolean",
-    "null"
-]
+REQUEST_BODY_VALUE_TYPES = ["string", "integer", "float", "boolean", "null"]
