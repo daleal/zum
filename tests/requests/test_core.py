@@ -10,13 +10,16 @@ class TestGenerateRequest:
             "route": "/example/{id}?query={query}",
             "method": "post",
             "params": ["id", "query"],
+            "headers": ["Authorization"],
             "body": ["name", "city"],
         }
         self.params = {"id": 69, "query": "nais"}
+        self.headers = {"Authorization": "Bearer F"}
         self.body = {"name": "Dani", "city": "Barcelona"}
         self.arguments = [
             self.params["id"],
             self.params["query"],
+            self.headers["Authorization"],
             self.body["name"],
             self.body["city"],
         ]
@@ -28,5 +31,6 @@ class TestGenerateRequest:
         request = generate_request(self.raw_endpoint, self.arguments)
         assert isinstance(request, Request)
         assert request.params == self.params
+        assert request.headers == self.headers
         assert request.body == self.body
         assert request.route == self.expected_route
