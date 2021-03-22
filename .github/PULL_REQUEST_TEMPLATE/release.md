@@ -1,13 +1,13 @@
 # Version X.X.X 🎉
 
-## Additions
+## Additions ➕
 
-- ➕ Include here what was added with this version.
+- Include here what was added with this version.
 
-## Changes
+## Changes ➖
 
-- ➖ Include here what was changed with this version.
+- Include here what was changed with this version.
 
-## Fixes
+## Fixes 🐛
 
-- 🐛 Include here what was fixed with this version.
+- Include here what was fixed with this version.

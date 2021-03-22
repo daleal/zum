@@ -28,6 +28,7 @@ exclude = [
     ".flake8",
     ".pylintrc",
     "mypy.ini",
+    ".coveragerc",
     "Makefile",
     "scripts",
     "tests"
