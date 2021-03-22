@@ -14,7 +14,7 @@
 
 <p align="center">
 <a href="https://pypi.org/project/zum" target="_blank">
-    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=306998" alt="PyPI - Version">
+    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=303598" alt="PyPI - Version">
 </a>
 
 <a href="https://github.com/daleal/zum/actions?query=workflow%3Atests" target="_blank">
@@ -262,10 +262,10 @@ body = ["name", "city"]
 Now, you can call the endpoint using:
 
 ```sh
-zum create-nested 69 "Bearer super-secret-token" dani Santiago
+zum create-nested 35 "Bearer super-secret-token" dani Santiago
 ```
 
-This will call `POST /entity/69` with the following headers:
+This will call `POST /entity/35` with the following headers:
 
 ```json
 {
@@ -321,7 +321,7 @@ headers = ["Authorization"]
 body = ["name", "city"]
 ```
 
-With that config file (using a hypothetical existing API), you could `GET /entity/420` to get the entity with id `420`, `GET /entity/420?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `420`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/69` with an authorization header and some request body to create a new nested entity, child of the entity with id `69`.
+With that config file (using a hypothetical existing API), you could `GET /entity/57` to get the entity with id `57`, `GET /entity/57?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `57`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/35` with an authorization header and some request body to create a new nested entity, child of the entity with id `35`.
 
 ## Developing
 
