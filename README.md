@@ -14,7 +14,7 @@
 
 <p align="center">
 <a href="https://pypi.org/project/zum" target="_blank">
-    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=306998" alt="PyPI - Version">
+    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=303598" alt="PyPI - Version">
 </a>
 
 <a href="https://github.com/daleal/zum/actions?query=workflow%3Atests" target="_blank">
@@ -66,18 +66,18 @@ This indicates to `zum` that the API endpoints are located at `http://localhost:
 The `endpoints` key contains every endpoint that you want to be able to access from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
 
 ```toml
-[endpoints.my-endpoint-name]
-route = "/endpoint-name"
+[endpoints.dada]
+route = "/sample-endpoint"
 method = "post"
 ```
 
 Notice that the header of the section consists of `endpoints.{something}`. **That `{something}` will be the name of your endpoint**. That means that, on the example, to query the endpoint, all you need to do is to run:
 
 ```sh
-zum my-endpoint-name
+zum dada
 ```
 
-With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/endpoint-name`. Just 5 lines on a TOML file!
+With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/sample-endpoint` 🎵. Just 5 lines on a TOML file!
 
 The endpoint configuration will be discussed more on a [dedicated section](#endpoints).
 
@@ -262,10 +262,10 @@ body = ["name", "city"]
 Now, you can call the endpoint using:
 
 ```sh
-zum create-nested 69 "Bearer super-secret-token" dani Santiago
+zum create-nested 35 "Bearer super-secret-token" dani Santiago
 ```
 
-This will call `POST /entity/69` with the following headers:
+This will call `POST /entity/35` with the following headers:
 
 ```json
 {
@@ -297,22 +297,26 @@ Here's a simple `zum.toml` file example:
 [metadata]
 server = "http://localhost:8000"
 
+# zum my-entity 57
 [endpoints.my-entity]
 route = "/entity/{id}"
 method = "get"
 params = ["id"]
 
+# zum search 57 mystring
 [endpoints.search]
 route = "/entity/{id}?query={query}"
 method = "get"
 params = ["id", "query"]
 
+# zum create-entity "Bearer super-secret-token" dani Santiago
 [endpoints.create-entity]
 route = "/entity"
 method = "post"
 headers = ["Authorization"]
 body = ["name", "city"]
 
+# zum create-entity 35 "Bearer super-secret-token" dani Santiago
 [endpoints.create-nested]
 route = "/entity/{id}"
 method = "post"
@@ -321,7 +325,7 @@ headers = ["Authorization"]
 body = ["name", "city"]
 ```
 
-With that config file (using a hypothetical existing API), you could `GET /entity/420` to get the entity with id `420`, `GET /entity/420?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `420`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/69` with an authorization header and some request body to create a new nested entity, child of the entity with id `69`.
+With that config file (using a hypothetical existing API), you could `GET /entity/57` to get the entity with id `57`, `GET /entity/57?query=mystring` to search for the appearances of the word `mystring` on the model of the entity with id `57`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/35` with an authorization header and some request body to create a new nested entity, child of the entity with id `35`.
 
 ## Developing
 

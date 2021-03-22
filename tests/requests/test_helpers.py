@@ -49,8 +49,8 @@ class TestCastParameter:
         self.string = {"input": ["key", "value"], "output": {"key": "value"}}
         self.no_type = {"input": [{"name": "key"}, "value"], "output": {"key": "value"}}
         self.casted = {
-            "input": [{"name": "key", "type": "integer"}, "69"],
-            "output": {"key": 69},
+            "input": [{"name": "key", "type": "integer"}, "35"],
+            "output": {"key": 35},
         }
         self.invalid_casting = [{"name": "key", "type": "integer"}, "invalid"]
 
@@ -74,7 +74,7 @@ class TestCastParameter:
 
 class TestCastValue:
     def setup_method(self):
-        self.integer = {"input": ["420", "integer"], "output": 420}
+        self.integer = {"input": ["57", "integer"], "output": 57}
         self.float = {"input": ["6.9", "float"], "output": 6.9}
         self.invalid_boolean = ["invalid", "boolean"]
         self.true = {"input": ["true", "boolean"], "output": True}
