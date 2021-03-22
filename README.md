@@ -297,22 +297,26 @@ Here's a simple `zum.toml` file example:
 [metadata]
 server = "http://localhost:8000"
 
+# zum my-entity 57
 [endpoints.my-entity]
 route = "/entity/{id}"
 method = "get"
 params = ["id"]
 
+# zum search 57 mystring
 [endpoints.search]
 route = "/entity/{id}?query={query}"
 method = "get"
 params = ["id", "query"]
 
+# zum create-entity "Bearer super-secret-token" dani Santiago
 [endpoints.create-entity]
 route = "/entity"
 method = "post"
 headers = ["Authorization"]
 body = ["name", "city"]
 
+# zum create-entity 35 "Bearer super-secret-token" dani Santiago
 [endpoints.create-nested]
 route = "/entity/{id}"
 method = "post"
