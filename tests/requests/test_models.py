@@ -13,7 +13,7 @@ class TestRequestModel:
         self.complex = {
             "route": "/example/{id}?query={query}",
             "method": "get",
-            "params": {"query": "nais", "id": 69},
+            "params": {"query": "mystring", "id": 35},
             "headers": {},
             "body": {},
         }

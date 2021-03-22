@@ -13,7 +13,7 @@ class TestGenerateRequest:
             "headers": ["Authorization"],
             "body": ["name", "city"],
         }
-        self.params = {"id": 69, "query": "nais"}
+        self.params = {"id": 35, "query": "mystring"}
         self.headers = {"Authorization": "Bearer F"}
         self.body = {"name": "Dani", "city": "Barcelona"}
         self.arguments = [
