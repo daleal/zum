@@ -321,7 +321,7 @@ headers = ["Authorization"]
 body = ["name", "city"]
 ```
 
-With that config file (using a hypothetical existing API), you could `GET /entity/57` to get the entity with id `57`, `GET /entity/57?query=nice` to search for the appearances of the word `nice` on the model of the entity with id `57`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/35` with an authorization header and some request body to create a new nested entity, child of the entity with id `35`.
+With that config file (using a hypothetical existing API), you could `GET /entity/57` to get the entity with id `57`, `GET /entity/57?query=mystring` to search for the appearances of the word `mystring` on the model of the entity with id `57`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/35` with an authorization header and some request body to create a new nested entity, child of the entity with id `35`.
 
 ## Developing
 
