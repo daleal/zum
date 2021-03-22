@@ -66,18 +66,18 @@ This indicates to `zum` that the API endpoints are located at `http://localhost:
 The `endpoints` key contains every endpoint that you want to be able to access from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
 
 ```toml
-[endpoints.my-endpoint-name]
-route = "/endpoint-name"
+[endpoints.dada]
+route = "/sample-endpoint"
 method = "post"
 ```
 
 Notice that the header of the section consists of `endpoints.{something}`. **That `{something}` will be the name of your endpoint**. That means that, on the example, to query the endpoint, all you need to do is to run:
 
 ```sh
-zum my-endpoint-name
+zum dada
 ```
 
-With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/endpoint-name`. Just 5 lines on a TOML file!
+With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/sample-endpoint` 🎵. Just 5 lines on a TOML file!
 
 The endpoint configuration will be discussed more on a [dedicated section](#endpoints).
 
