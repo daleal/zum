@@ -147,7 +147,7 @@ zum restricted "Bearer super-secret-token"
 
 > ⚠ **WARNING**: Notice that, for the first time, we surrounded something with quotes. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
 
-This will send a `GET` request to `http://localhost:8000/entity` with the following headers:
+This will send a `GET` request to `http://localhost:8000/secret` with the following headers:
 
 ```json
 {
