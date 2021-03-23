@@ -8,7 +8,7 @@
 
 <p align="center">
     <em>
-        Stop writing scripts to test your APIs. Call them as CLIs instead.
+        Stop writing scripts to interact with your APIs. Call them as CLIs instead.
     </em>
 </p>
 
