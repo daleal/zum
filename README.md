@@ -14,7 +14,7 @@
 
 <p align="center">
 <a href="https://pypi.org/project/zum" target="_blank">
-    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=303598" alt="PyPI - Version">
+    <img src="https://img.shields.io/pypi/v/zum?label=version&logo=python&logoColor=%23fff&color=306998" alt="PyPI - Version">
 </a>
 
 <a href="https://github.com/daleal/zum/actions?query=workflow%3Atests" target="_blank">
