@@ -8,7 +8,7 @@
 
 <p align="center">
     <em>
-        Stop writing scripts to test your APIs. Call them as CLIs instead.
+        Stop writing scripts to interact with your APIs. Call them as CLIs instead.
     </em>
 </p>
 
@@ -30,7 +30,7 @@
 </a>
 </p>
 
-**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe an API using a [TOML](https://toml.io/en/) file and then call that API using your command line. This means that **the days of writing custom scripts to help you develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
+**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe a web API using a [TOML](https://toml.io/en/) file and then call that API using your command line. This means that **the days of writing custom scripts to help you interact and develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
 
 ## Installing
 
