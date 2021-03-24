@@ -99,35 +99,35 @@ class TestExecute:
 
     def test_simple_requests(self):
         get_response = execute(self.base_url, self.get["request"])
-        assert get_response == self.get["response"]
+        assert get_response.json() == self.get["response"]
 
         post_response = execute(self.base_url, self.post["request"])
-        assert post_response == self.post["response"]
+        assert post_response.json() == self.post["response"]
 
     def test_only_params(self):
         response = execute(self.base_url, self.only_params["request"])
-        assert response == self.only_params["response"]
+        assert response.json() == self.only_params["response"]
 
     def test_only_headers(self):
         response = execute(self.base_url, self.only_headers["request"])
-        assert response == self.only_headers["response"]
+        assert response.json() == self.only_headers["response"]
 
     def test_only_body(self):
         response = execute(self.base_url, self.only_body["request"])
-        assert response == self.only_body["response"]
+        assert response.json() == self.only_body["response"]
 
     def test_params_and_headers(self):
         response = execute(self.base_url, self.params_and_headers["request"])
-        assert response == self.params_and_headers["response"]
+        assert response.json() == self.params_and_headers["response"]
 
     def test_params_and_body(self):
         response = execute(self.base_url, self.params_and_body["request"])
-        assert response == self.params_and_body["response"]
+        assert response.json() == self.params_and_body["response"]
 
     def test_headers_and_body(self):
         response = execute(self.base_url, self.headers_and_body["request"])
-        assert response == self.headers_and_body["response"]
+        assert response.json() == self.headers_and_body["response"]
 
     def test_params_and_headers_and_body(self):
         response = execute(self.base_url, self.params_and_headers_and_body["request"])
-        assert response == self.params_and_headers_and_body["response"]
+        assert response.json() == self.params_and_headers_and_body["response"]

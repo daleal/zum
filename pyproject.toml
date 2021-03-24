@@ -1,12 +1,14 @@
 [tool.poetry]
 name = "zum"
-version = "0.2.0"
-description = "Stop writing scripts to test your APIs. Call them as CLIs instead."
+version = "0.2.1"
+description = "Stop writing scripts to interact with your APIs. Call them as CLIs instead."
 license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
 maintainers = ["Daniel Leal <dlleal@uc.cl>"]
 readme = "README.md"
+homepage = "https://zum.daleal.dev/"
 repository = "https://github.com/daleal/zum"
+documentation = "https://zum.daleal.dev/docs/"
 classifiers = [
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
@@ -28,6 +30,7 @@ exclude = [
     ".flake8",
     ".pylintrc",
     "mypy.ini",
+    ".coveragerc",
     "Makefile",
     "scripts",
     "tests"

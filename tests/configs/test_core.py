@@ -67,7 +67,7 @@ class TestValidateConfigs:
 class TestValidateMetadata:
     def setup_method(self):
         self.missing = {"some-key": "some-value"}
-        self.invalid_type = {"some-key": "some-value", "metadata": "nice"}
+        self.invalid_type = {"some-key": "some-value", "metadata": "mystring"}
         self.missing_server = {
             "some-key": "some-value",
             "metadata": {"some-thing": "some-value"},
@@ -96,7 +96,7 @@ class TestValidateMetadata:
 class TestValidateEndpoints:
     def setup_method(self):
         self.missing = {"some-key": "some-value"}
-        self.invalid_type = {"some-key": "some-value", "endpoints": "nice"}
+        self.invalid_type = {"some-key": "some-value", "endpoints": "mystring"}
         self.empty = {"some-key": "some-value", "endpoints": {}}
 
     def test_missing_endpoints_key(self):
