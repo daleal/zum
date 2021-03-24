@@ -51,6 +51,8 @@ zum create application/json Dani Santiago
 
 Now, imagine having to run this command hundreads of times during API development changing only the values on the request body, for example. You can see how using cURL is **not ideal**.
 
+The [complete documentation](https://zum.daleal.dev/docs/) is available on the [official website](https://zum.daleal.dev/).
+
 ## Installation
 
 Install using pip!
@@ -122,4 +124,5 @@ make tests
 
 ## Resources
 
+- [Official Website](https://zum.daleal.dev/)
 - [Issue Tracker](https://github.com/daleal/zum/issues/)
