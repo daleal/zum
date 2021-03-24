@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from typing import Any, List, Optional
 
 import zum
-from zum.constants import CONFIG_FILE_NAME
+from zum.constants import DEFAULT_CONFIG_FILE_NAME
 from zum.engine import Engine
 
 
@@ -37,12 +37,11 @@ def generate_file_parser() -> ArgumentParser:
         "-f",
         "--file",
         dest="file",
-        default=CONFIG_FILE_NAME,
-        help="Default config file name",
+        default=DEFAULT_CONFIG_FILE_NAME,
+        help=f"Config file name. Defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
     )
 
     return parser
-
 
 
 def generate_parser(actions_list: List[str]) -> ArgumentParser:
@@ -67,8 +66,8 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
         "-f",
         "--file",
         dest="file",
-        default=CONFIG_FILE_NAME,
-        help="Default config file name",
+        default=DEFAULT_CONFIG_FILE_NAME,
+        help=f"Config file name. Defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
     )
 
     if actions_list:
