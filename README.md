@@ -32,14 +32,6 @@
 
 **Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe a web API using a [TOML](https://toml.io/en/) file and then interact with that API using your command line. This means that **the days of writing custom scripts to help you interact and develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
 
-## Installation
-
-Install using pip!
-
-```sh
-pip install zum
-```
-
 ## Why Zum?
 
 While there are tools out there with goals similar to `zum`, the scopes are quite different. The common contenders are [OpenAPI](http://spec.openapis.org/oas/v3.0.3)-based tools (like [SwaggerUI](https://swagger.io/tools/swagger-ui/)) and [cURL](https://curl.se/). To me, using an OpenAPI-based documentation tool is essential on any large enough API, but the description method is **very** verbose and quite complex, so often times it is added once the API has quite a few endpoints. On the other hand, cURL gets very verbose and tedious very fast when querying APIs, so I don't like to use it when developing my APIs. As a comparison, here's a `curl` command to query a local endpoint with a JSON body:
@@ -58,6 +50,14 @@ zum create application/json Dani Santiago
 ```
 
 Now, imagine having to run this command hundreads of times during API development changing only the values on the request body, for example. You can see how using cURL is **not ideal**.
+
+## Installation
+
+Install using pip!
+
+```sh
+pip install zum
+```
 
 ## Usage
 
