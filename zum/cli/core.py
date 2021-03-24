@@ -26,7 +26,7 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
     log(engine.output)  # pragma: nocover
 
 
-def get_config_file_name(*args, **kwargs):
+def get_config_file_name(*args: Any, **kwargs: Any) -> str:
     """Creates the config file parser and extracts the config file name."""
     file_parser = generate_config_file_parser()
 
