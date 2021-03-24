@@ -38,7 +38,7 @@ def generate_file_parser() -> ArgumentParser:
         "--file",
         dest="file",
         default=DEFAULT_CONFIG_FILE_NAME,
-        help=f"Config file name. Defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
+        help=f"config file name, defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
     )
 
     return parser
@@ -67,7 +67,7 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
         "--file",
         dest="file",
         default=DEFAULT_CONFIG_FILE_NAME,
-        help=f"Config file name. Defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
+        help=f"config file name, defaults to '{DEFAULT_CONFIG_FILE_NAME}'",
     )
 
     if actions_list:
