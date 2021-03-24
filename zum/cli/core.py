@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from typing import Any, List, Optional
 
 import zum
+from zum.constants import CONFIG_FILE_NAME
 from zum.engine import Engine
 
 
@@ -14,13 +15,34 @@ def dispatcher(*args: Any, **kwargs: Any) -> None:
     Main CLI method, recieves the command line action and dispatches it to
     the corresponding method.
     """
-    engine = Engine()
+    file_parser = generate_file_parser()
+
+    file_args, _ = file_parser.parse_known_args(*args, **kwargs)
+
+    engine = Engine(file_args.file)
 
     parser = generate_parser(engine.actions)
     parsed_args = parser.parse_args(*args, **kwargs)
 
     engine.execute(parsed_args.action[0], parsed_args.params)  # pragma: nocover
     log(engine.output)  # pragma: nocover
+
+
+def generate_file_parser() -> ArgumentParser:
+    # Create parser
+    parser = ArgumentParser(add_help=False)
+
+    # Add file command
+    parser.add_argument(
+        "-f",
+        "--file",
+        dest="file",
+        default=CONFIG_FILE_NAME,
+        help="Default config file name",
+    )
+
+    return parser
+
 
 
 def generate_parser(actions_list: List[str]) -> ArgumentParser:
@@ -38,6 +60,15 @@ def generate_parser(actions_list: List[str]) -> ArgumentParser:
         "--version",
         action="version",
         version=f"zum version {zum.__version__}",
+    )
+
+    # Add file command
+    parser.add_argument(
+        "-f",
+        "--file",
+        dest="file",
+        default=CONFIG_FILE_NAME,
+        help="Default config file name",
     )
 
     if actions_list:
