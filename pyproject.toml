@@ -6,7 +6,9 @@ license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
 maintainers = ["Daniel Leal <dlleal@uc.cl>"]
 readme = "README.md"
+homepage = "https://zum.daleal.dev/"
 repository = "https://github.com/daleal/zum"
+documentation = "https://zum.daleal.dev/docs/"
 classifiers = [
     "Environment :: Web Environment",
     "Intended Audience :: Developers",

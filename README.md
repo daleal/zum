@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/daleal/zum">
-        <img src="https://zum.daleal.dev/assets/zum-250x250.png">
+        <img src="https://zum.daleal.dev/assets/images/zum-300x300.png">
     </a>
 </p>
 
@@ -30,9 +30,30 @@
 </a>
 </p>
 
-**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe a web API using a [TOML](https://toml.io/en/) file and then call that API using your command line. This means that **the days of writing custom scripts to help you interact and develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
+**Zum** (German word roughly meaning "_to the_" or "_to_" depending on the context, pronounced `/tsʊm/`) is a tool that lets you describe a web API using a [TOML](https://toml.io/en/) file and then interact with that API using your command line. This means that **the days of writing custom scripts to help you interact and develop each of your APIs are over**. Just create a `zum.toml`, describe your API and forget about maintaining more code!
 
-## Installing
+## Why Zum?
+
+While there are tools out there with goals similar to `zum`, the scopes are quite different. The common contenders are [OpenAPI](http://spec.openapis.org/oas/v3.0.3)-based tools (like [SwaggerUI](https://swagger.io/tools/swagger-ui/)) and [cURL](https://curl.se/). To me, using an OpenAPI-based documentation tool is essential on any large enough API, but the description method is **very** verbose and quite complex, so often times it is added once the API has quite a few endpoints. On the other hand, cURL gets very verbose and tedious very fast when querying APIs, so I don't like to use it when developing my APIs. As a comparison, here's a `curl` command to query a local endpoint with a JSON body:
+
+```sh
+curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"name": "Dani", "city": "Santiago"}' \
+    http://localhost:8000/living-beings
+```
+
+And here is the `zum` command to achieve the same result:
+
+```sh
+zum create application/json Dani Santiago
+```
+
+Now, imagine having to run this command hundreads of times during API development changing only the values on the request body, for example. You can see how using cURL is **not ideal**.
+
+The [complete documentation](https://zum.daleal.dev/docs/) is available on the [official website](https://zum.daleal.dev/).
+
+## Installation
 
 Install using pip!
 
@@ -42,112 +63,81 @@ pip install zum
 
 ## Usage
 
-### The config file
+### Basic Usage
 
-The first thing that you need to do in order to use `zum` is to describe the API that you're trying to ping using a config file, named `zum.toml`. This TOML file should contain the following keys:
+The basic principle is simple:
 
-#### `metadata`
+1. Describe your API using a `zum.toml` file.
+2. Use the `zum` CLI to interact with your API.
 
-The `metadata` key contains everything that is not data about an endpoint of the API itself, but that is needed in order to query the API. This key should contain the following values:
-
-- `server`: The base URL where the API is hosted.
-
-As an example, the first lines of your `zum.toml` file for a development environment should probably look similar to this:
+We get more _in-depth_ with how to structure the `zum.toml` file and how to use the `zum` CLI on [the complete documentation](https://zum.daleal.dev/docs/), but for now let's see a very basic example. Imagine that you are developing an API that gets the URL of [a song on YouTube](https://youtu.be/6xlsR1c8yh4). This API, for now, has only 1 endpoint: `GET /song` (clearly a [WIP](https://www.urbandictionary.com/define.php?term=Wip)). To describe your API, you would have to write a `zum.toml` file similar to this one:
 
 ```toml
 [metadata]
 server = "http://localhost:8000"
-```
 
-This indicates to `zum` that the API endpoints are located at `http://localhost:8000`. Easy enough, right?
-
-#### `endpoints`
-
-The `endpoints` key contains every endpoint that you want to be able to access from `zum`. Each endpoint should also have a `route` value, a `method` value and may include a `params` value and a `body` value. Let's see an example:
-
-```toml
 [endpoints.dada]
-route = "/sample-endpoint"
-method = "post"
+route = "/song"
+method = "get"
 ```
 
-Notice that the header of the section consists of `endpoints.{something}`. **That `{something}` will be the name of your endpoint**. That means that, on the example, to query the endpoint, all you need to do is to run:
+Now, to get your song's URL, all you need to do is to run:
 
 ```sh
 zum dada
 ```
 
-With the existing configuration, `zum` will make a `POST` HTTP request to `http://localhost:8000/sample-endpoint` 🎵. Just 5 lines on a TOML file!
+Notice that, after the `zum` command, we passed an argument, that in this case was `dada`. This argument tells `zum` that it should interact with the endpoint described on the `dada` endpoint section, denoted by the header `[endpoints.dada]`. As a rule, to access an endpoint described by the header `[endpoints.{my-endpoint-name}]`, you will call the `zum` command with the `{my-endpoint-name}` argument:
 
-The endpoint configuration will be discussed more on a [dedicated section](#endpoints).
+```sh
+zum {my-endpoint-name}
+```
 
-### Endpoints
+### `params`, `headers` and `body`
 
-Up until now, the examples shown are **really** simple. Rarely does an API endpoint not include some parameters on the URL or some request body. The idea of `zum` is to keep everything extremely simple, so let's see how to use URL parameters and the request body.
+**Beware!** There are some nuances on these attribute definitions, so reading [the complete documentation](https://zum.daleal.dev/docs/) is **highly recommended**.
 
-#### Parameters
+#### The `params` of an endpoint
 
-Imagine that you have an API with an endpoint `/entity/:id` that returns an entity with the id `:id`. You would probably like to be able to just `zum entity 3` to get the entity with `:id` corresponding to `3`. Well, that's **exactly** what `zum` does. Let's first define the endpoint:
+On the previous example, the `route` was static, which means that `zum` will **always** query the same route. For some things, this might not be the best of ideas (for example, for querying entities on REST APIs), and you might want to interpolate a value on the `route` string. Let's say that there's a collection of songs, and you wanted to get the song with `id` _57_. Your endpoint definition should look like the following:
 
 ```toml
-[endpoints.my-entity]
-route = "/entity/{id}"
+[endpoints.get-song]
+route = "/songs/{id}"
 method = "get"
 params = ["id"]
 ```
 
-This configuration tells `zum` that it should replace the route string `{id}` for whatever `id` it receives from the command line as an argument (the command for that configuration should be `zum my-entity 3`). That makes sense. But why is the `params` value an array? Well, let's imagine that you want to search for all the appearances of some string on the entity model. The API endpoint will probably receive a `?query=` parameter. So let's describe this new endpoint:
-
-```toml
-[endpoints.search]
-route = "/entity/{id}?query={query}"
-method = "get"
-params = ["id", "query"]
-```
-
-Now, you can run something like:
+As you can see, the element inside `params` matches the element inside the brackets on the `route`. This means that whatever parameter you pass to the `zum` CLI, it will be replaced on the `route` _on-demand_:
 
 ```sh
-zum search 3 mystring
+zum get-song 57
 ```
 
-This will search `"mystring"` on the entity with id `3`. **But order matters**. Let's imagine that to you, it makes more sense to write the query string first. Then, your definition should be:
+Now, `zum` will send a `GE`T HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
+
+#### The `headers` of an endpoint
+
+The `headers` are defined **exactly** the same as the `params`. Let's see a small example to illustrate how to use them. Imagine that you have an API that requires [JWT](https://jwt.io/introduction) authorization to `GET` the songs of its catalog. Let's define that endpoint:
 
 ```toml
-[endpoints.search]
-route = "/entity/{id}?query={query}"
-method = "get"
-params = ["query", "id"]
-```
-
-Now, you can run something like:
-
-```sh
-zum search mystring 3
-```
-
-The query will be exactly the same. **This means that the array tells `zum` in which order to interpret the CLI parameters**.
-
-#### Headers
-
-Just like the parameters, the headers get defined as an array:
-
-```toml
-[endpoints.restricted]
-route = "/secret"
+[endpoints.get-authorized-catalog]
+route = "/catalog"
 method = "get"
 headers = ["Authorization"]
 ```
 
-To run this endpoint, you just need to run:
+Now, to acquire the catalog, we would need to run:
 
 ```sh
-zum restricted "Bearer super-secret-token"
+zum get-authorized-catalog "Bearer super-secret-token"
 ```
 
-> ⚠ **WARNING**: Notice that, for the first time, we surrounded something with quotes. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
+::: warning ⚠ Warning
+Notice that, for the first time, we surrounded something with quotes on the CLI. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
+:::
 
-This will send a `GET` request to `http://localhost:8000/secret` with the following headers:
+This will send a `GET` request to `http://localhost:8000/catalog` with the following headers:
 
 ```json
 {
@@ -155,13 +145,15 @@ This will send a `GET` request to `http://localhost:8000/secret` with the follow
 }
 ```
 
-#### Request body
+And now you have your authorization-protected music catalog!
 
-Just like the parameters and headers, the request body gets defined as an array:
+#### The `body` of an endpoint
+
+Just like `params` and `headers`, the `body` (the body of the request) gets defined as an array:
 
 ```toml
-[endpoints.create-entity]
-route = "/entity"
+[endpoints.create-living-being]
+route = "/living-beings"
 method = "post"
 body = ["name", "city"]
 ```
@@ -169,103 +161,43 @@ body = ["name", "city"]
 To run this endpoint, you just need to run:
 
 ```sh
-zum create-entity dani Santiago
+zum create-living-being Dani Santiago
 ```
 
-This will send a `POST` request to `http://localhost:8000/entity` with the following request body:
+This will send a `POST` request to `http://localhost:8000/living-beings` with the following request body:
 
 ```json
 {
-    "name": "dani",
+    "name": "Dani",
     "city": "Santiago"
 }
 ```
 
-As always, order matters.
+**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint)
+
+#### Combining `params`, `headers` and `body`
+
+Of course, sometimes you need to use some `params`, some `headers` **and** a `body`. For example, if you wanted to create a song inside an authorization-protected album (a _nested entity_), you would need to use the album's id as a `param`, the "Authorization" key inside the `headers` to get the authorization and the new song's data as the `body`. For this example, the song has a `name` (which is a string) and a `duration` in seconds (which is an integer). Let's describe this situation!
 
 ```toml
-[endpoints.create-entity]
-route = "/entity"
-method = "post"
-body = ["city", "name"]
-```
-
-Now, to get the same result as before, you should run:
-
-```sh
-zum create-entity Santiago dani
-```
-
-**But what about types?** On the examples above, all the request body parameters are being sent **as strings**. Of course, you can cast the values to some types. The supported types are:
-
-- `string`
-- `integer`
-- `float`
-- `boolean` (`true` or `false`)
-- `null`
-
-To declare a type, let's imagine you have an API endpoint that receives two numbers `number1` and `number2` and adds them together. To describe this endpoint, you can use the following description:
-
-```toml
-[endpoints.add]
-route = "/add"
-method = "post"
-body = [
-    { name = "number1", type = "integer" },
-    { name = "number2", type = "integer" }
-]
-```
-
-Now, when you run
-
-```sh
-zum add 5 8
-```
-
-The request body will be:
-
-```json
-{
-    "number1": 5,
-    "number2": 8
-}
-```
-
-Keep in mind that you can _mix and match_ the definitions. You can even define the parameter with the object notation and not include its type. You could define, for example:
-
-```toml
-[endpoints.example]
-route = "/example"
-method = "post"
-body = [
-    "parameter1",
-    { name = "parameter2", type = "boolean" },
-    { name = "parameter3" }
-]
-```
-
-Now, `parameter1` will be sent as a string, `parameter2` will be casted as a boolean and `parameter3` will be sent as a string.
-
-#### What about using all of the above?
-
-Of course, sometimes you need to use parameters, headers **and** request bodies. For example, if you wanted to create a nested entity, you would need to use the parent's id as a parameter, the authorization headers and the new entity data as a request body. Let's describe this situation!
-
-```toml
-[endpoints.create-nested]
-route = "/entity/{id}"
+[endpoints.create-song]
+route = "/albums/{id}/songs"
 method = "post"
 params = ["id"]
 headers = ["Authorization"]
-body = ["name", "city"]
+body = [
+    "name",
+    { name = "duration", type = "integer" }
+]
 ```
 
 Now, you can call the endpoint using:
 
 ```sh
-zum create-nested 35 "Bearer super-secret-token" dani Santiago
+zum create-song 8 "Bearer super-secret-token" "Con Altura" 161
 ```
 
-This will call `POST /entity/35` with the following headers:
+This will call `POST /albums/8/songs` with the following headers:
 
 ```json
 {
@@ -277,55 +209,17 @@ And the following request body:
 
 ```json
 {
-    "name": "dani",
-    "city": "Santiago"
+    "name": "Con Altura",
+    "duration": 161
 }
 ```
 
-As you can probably tell, `zum` receives the `params` first on the CLI, then the `headers` and then the `body`. In _pythonic_ terms, what `zum` does is kind of _unpacks_ the three arrays consecutively, something like the following:
+As you can probably tell, `zum` receives the `params` first on the CLI, then the `headers` and then the `body`. In _pythonic_ terms, what `zum` does is that it kind of _unpacks_ the three arrays consecutively, something like the following:
 
 ```py
 arguments = [*params, *headers, *body]
 zum(arguments)
 ```
-
-## `zum.toml` example
-
-Here's a simple `zum.toml` file example:
-
-```toml
-[metadata]
-server = "http://localhost:8000"
-
-# zum my-entity 57
-[endpoints.my-entity]
-route = "/entity/{id}"
-method = "get"
-params = ["id"]
-
-# zum search 57 mystring
-[endpoints.search]
-route = "/entity/{id}?query={query}"
-method = "get"
-params = ["id", "query"]
-
-# zum create-entity "Bearer super-secret-token" dani Santiago
-[endpoints.create-entity]
-route = "/entity"
-method = "post"
-headers = ["Authorization"]
-body = ["name", "city"]
-
-# zum create-entity 35 "Bearer super-secret-token" dani Santiago
-[endpoints.create-nested]
-route = "/entity/{id}"
-method = "post"
-params = ["id"]
-headers = ["Authorization"]
-body = ["name", "city"]
-```
-
-With that config file (using a hypothetical existing API), you could `GET /entity/57` to get the entity with id `57`, `GET /entity/57?query=mystring` to search for the appearances of the word `mystring` on the model of the entity with id `57`, `POST /entity` with an authorization header and some request body to create a new entity and `POST /entity/35` with an authorization header and some request body to create a new nested entity, child of the entity with id `35`.
 
 ## Developing
 
@@ -358,4 +252,5 @@ make tests
 
 ## Resources
 
+- [Official Website](https://zum.daleal.dev/)
 - [Issue Tracker](https://github.com/daleal/zum/issues/)
