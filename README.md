@@ -93,6 +93,134 @@ Notice that, after the `zum` command, we passed an argument, that in this case w
 zum {my-endpoint-name}
 ```
 
+### `params`, `headers` and `body`
+
+**Beware!** There are some nuances on these attribute definitions, so reading [the complete documentation](https://zum.daleal.dev/docs/) is **highly recommended**.
+
+#### The `params` of an endpoint
+
+On the previous example, the `route` was static, which means that `zum` will **always** query the same route. For some things, this might not be the best of ideas (for example, for querying entities on REST APIs), and you might want to interpolate a value on the `route` string. Let's say that there's a collection of songs, and you wanted to get the song with `id` _57_. Your endpoint definition should look like the following:
+
+```toml
+[endpoints.get-song]
+route = "/songs/{id}"
+method = "get"
+params = ["id"]
+```
+
+As you can see, the element inside `params` matches the element inside the brackets on the `route`. This means that whatever parameter you pass to the `zum` CLI, it will be replaced on the `route` _on-demand_:
+
+```sh
+zum get-song 57
+```
+
+Now, `zum` will send a `GE`T HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
+
+#### The `headers` of an endpoint
+
+The `headers` are defined **exactly** the same as the `params`. Let's see a small example to illustrate how to use them. Imagine that you have an API that requires [JWT](https://jwt.io/introduction) authorization to `GET` the songs of its catalog. Let's define that endpoint:
+
+```toml
+[endpoints.get-authorized-catalog]
+route = "/catalog"
+method = "get"
+headers = ["Authorization"]
+```
+
+Now, to acquire the catalog, we would need to run:
+
+```sh
+zum get-authorized-catalog "Bearer super-secret-token"
+```
+
+::: warning ⚠ Warning
+Notice that, for the first time, we surrounded something with quotes on the CLI. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
+:::
+
+This will send a `GET` request to `http://localhost:8000/catalog` with the following headers:
+
+```json
+{
+    "Authorization": "Bearer super-secret-token"
+}
+```
+
+And now you have your authorization-protected music catalog!
+
+#### The `body` of an endpoint
+
+Just like `params` and `headers`, the `body` (the body of the request) gets defined as an array:
+
+```toml
+[endpoints.create-living-being]
+route = "/living-beings"
+method = "post"
+body = ["name", "city"]
+```
+
+To run this endpoint, you just need to run:
+
+```sh
+zum create-living-being Dani Santiago
+```
+
+This will send a `POST` request to `http://localhost:8000/living-beings` with the following request body:
+
+```json
+{
+    "name": "Dani",
+    "city": "Santiago"
+}
+```
+
+**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint)
+
+#### Combining `params`, `headers` and `body`
+
+Of course, sometimes you need to use some `params`, some `headers` **and** a `body`. For example, if you wanted to create a song inside an authorization-protected album (a _nested entity_), you would need to use the album's id as a `param`, the "Authorization" key inside the `headers` to get the authorization and the new song's data as the `body`. For this example, the song has a `name` (which is a string) and a `duration` in seconds (which is an integer). Let's describe this situation!
+
+```toml
+[endpoints.create-song]
+route = "/albums/{id}/songs"
+method = "post"
+params = ["id"]
+headers = ["Authorization"]
+body = [
+    "name",
+    { name = "duration", type = "integer" }
+]
+```
+
+Now, you can call the endpoint using:
+
+```sh
+zum create-song 8 "Bearer super-secret-token" "Con Altura" 161
+```
+
+This will call `POST /albums/8/songs` with the following headers:
+
+```json
+{
+    "Authorization": "Bearer super-secret-token"
+}
+```
+
+And the following request body:
+
+```json
+{
+    "name": "Con Altura",
+    "duration": 161
+}
+```
+
+As you can probably tell, `zum` receives the `params` first on the CLI, then the `headers` and then the `body`. In _pythonic_ terms, what `zum` does is that it kind of _unpacks_ the three arrays consecutively, something like the following:
+
+```py
+arguments = [*params, *headers, *body]
+zum(arguments)
+```
+
 ## Developing
 
 Clone the repository:
