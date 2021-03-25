@@ -114,7 +114,7 @@ As you can see, the element inside `params` matches the element inside the brack
 zum get-song 57
 ```
 
-Now, `zum` will send a `GE`T HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
+Now, `zum` will send a `GET` HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
 
 #### The `headers` of an endpoint
 
