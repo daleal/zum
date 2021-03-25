@@ -3,7 +3,9 @@ from argparse import ArgumentParser
 import pytest
 
 import zum
-from zum.cli import dispatcher, generate_parser, log
+from zum.cli.core import dispatcher
+from zum.cli.generators import generate_main_parser
+from zum.cli.utils import log
 
 
 class TestGenerateParser:
@@ -13,7 +15,7 @@ class TestGenerateParser:
         self.multiple_actions = ["test1", "test2", "test3"]
 
     def test_empty_actions(self, capsys):
-        parser = generate_parser(self.empty_actions)
+        parser = generate_main_parser("zum.cli", self.empty_actions)
         assert isinstance(parser, ArgumentParser)
 
         parser.print_help()
@@ -21,7 +23,7 @@ class TestGenerateParser:
         assert "No config file" in captured
 
     def test_one_action(self, capsys):
-        parser = generate_parser(self.one_action)
+        parser = generate_main_parser("zum.cli", self.one_action)
         assert isinstance(parser, ArgumentParser)
 
         parser.print_help()
@@ -30,7 +32,7 @@ class TestGenerateParser:
         assert f"{{{','.join(self.one_action)}}}" in captured
 
     def test_multiple_actions(self, capsys):
-        parser = generate_parser(self.multiple_actions)
+        parser = generate_main_parser("zum.cli", self.multiple_actions)
         assert isinstance(parser, ArgumentParser)
 
         parser.print_help()
