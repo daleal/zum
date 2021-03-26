@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from zum.cli.generators import generate_main_parser
+from zum.cli.generators import generate_config_file_parser, generate_main_parser
 
 
 class TestGenerateMainParser:
@@ -36,3 +36,15 @@ class TestGenerateMainParser:
         captured = capsys.readouterr().out
         assert "No config file" not in captured
         assert f"{{{','.join(self.multiple_actions)}}}" in captured
+
+
+class TestGenerateConfigFileParser:
+    def setup_method(self):
+        self.filename = "filename"
+
+    def test_parser_creation(self):
+        parser = generate_config_file_parser()
+        assert not parser.add_help
+
+        known, _ = parser.parse_known_args(["--file", self.filename])
+        assert known.file == self.filename
