@@ -252,3 +252,4 @@ make tests
 
 - [Official Website](https://zum.daleal.dev/)
 - [Issue Tracker](https://github.com/daleal/zum/issues/)
+- [Contributing Guidelines](.github/CONTRIBUTING.md)
