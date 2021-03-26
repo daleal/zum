@@ -6,8 +6,8 @@ from argparse import ArgumentParser
 from typing import Any, List, Optional
 
 from zum.cli.generators import generate_config_file_parser, generate_main_parser
-from zum.cli.utils import log
 from zum.engine import Engine
+from zum.utils import log
 
 
 def dispatcher(*args: Any, **kwargs: Any) -> None:

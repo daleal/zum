@@ -3,42 +3,8 @@ from argparse import ArgumentParser
 import pytest
 
 import zum
-from zum.cli.core import dispatcher
-from zum.cli.generators import generate_main_parser
-from zum.cli.utils import log
-
-
-class TestGenerateParser:
-    def setup_method(self):
-        self.empty_actions = []
-        self.one_action = ["test"]
-        self.multiple_actions = ["test1", "test2", "test3"]
-
-    def test_empty_actions(self, capsys):
-        parser = generate_main_parser("zum.cli", self.empty_actions)
-        assert isinstance(parser, ArgumentParser)
-
-        parser.print_help()
-        captured = capsys.readouterr().out
-        assert "No config file" in captured
-
-    def test_one_action(self, capsys):
-        parser = generate_main_parser("zum.cli", self.one_action)
-        assert isinstance(parser, ArgumentParser)
-
-        parser.print_help()
-        captured = capsys.readouterr().out
-        assert "No config file" not in captured
-        assert f"{{{','.join(self.one_action)}}}" in captured
-
-    def test_multiple_actions(self, capsys):
-        parser = generate_main_parser("zum.cli", self.multiple_actions)
-        assert isinstance(parser, ArgumentParser)
-
-        parser.print_help()
-        captured = capsys.readouterr().out
-        assert "No config file" not in captured
-        assert f"{{{','.join(self.multiple_actions)}}}" in captured
+from zum.cli.core import dispatcher, get_config_file_name
+from zum.constants import DEFAULT_CONFIG_FILE_NAME
 
 
 class TestDispatcher:
@@ -64,8 +30,14 @@ class TestDispatcher:
         assert f"zum version {zum.__version__}" in captured
 
 
-class TestLogger:
-    def test_logger(self, capsys):
-        log("test")
-        captured = capsys.readouterr().out
-        assert "test" in captured
+class TestGetConfigFileName:
+    def setup_method(self):
+        self.file_name = "custom.toml"
+
+    def test_empty_call(self):
+        file_name = get_config_file_name()
+        assert file_name == DEFAULT_CONFIG_FILE_NAME
+
+    def test_filled_call(self):
+        file_name = get_config_file_name(["--file", self.file_name])
+        assert file_name == self.file_name

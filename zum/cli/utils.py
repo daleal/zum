@@ -8,11 +8,6 @@ from typing import Optional
 from zum.constants import DEFAULT_CONFIG_FILE_NAME
 
 
-def log(data: Optional[str]) -> None:
-    """Logs a string to the console."""
-    print(data)
-
-
 def attach_file_flag(parser: ArgumentParser) -> None:
     # Add file flag
     parser.add_argument(
