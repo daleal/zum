@@ -2,8 +2,7 @@
 A module to route the zum CLI traffic.
 """
 
-from argparse import ArgumentParser
-from typing import Any, List, Optional
+from typing import Any
 
 from zum.cli.generators import generate_config_file_parser, generate_main_parser
 from zum.engine import Engine
