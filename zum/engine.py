@@ -13,7 +13,7 @@ from zum.configs.core import (
     validate_configs,
 )
 from zum.configs.errors import InvalidConfigFileError, MissingConfigFileError
-from zum.constants import CONFIG_FILE_NAME
+from zum.constants import DEFAULT_CONFIG_FILE_NAME
 from zum.executor import execute
 from zum.requests.core import generate_request
 from zum.requests.validations import validate_raw_endpoint
@@ -25,7 +25,7 @@ class Engine:
     Class to handle the overall behaviour of zum.
     """
 
-    def __init__(self, config_file_name: str = CONFIG_FILE_NAME) -> None:
+    def __init__(self, config_file_name: str = DEFAULT_CONFIG_FILE_NAME) -> None:
         self.__output: Optional[str] = None
         self.__exception: Optional[Exception] = None
 
