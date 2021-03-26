@@ -1,6 +1,6 @@
-## Before getting started
+### Before getting started
 
-**Thank you** for considering making a contribution to Zum. This tool is meant to help anyone and everyone, and **I love** that it can be improved by the very people that might some day use it. You really make this all possible! 💙
+> **Thank you** for considering making a contribution to Zum. This tool is meant to help anyone and everyone, and **I love** that it can be improved by the very people that might some day use it. You really make this all possible! 💙
 
 # How to contribute
 
