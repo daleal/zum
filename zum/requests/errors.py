@@ -17,3 +17,10 @@ class InvalidBodyParameterTypeError(Exception):
     An exception for when a body parameter tries to be casted to a
     type that doesn't match its intrinsec type.
     """
+
+
+class InvalidRequestBodyFileError(Exception):
+    """
+    An exception used for any errors related to a JSON file provided as the
+    body of a request.
+    """
