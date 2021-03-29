@@ -7,17 +7,24 @@ from zum.requests.errors import InvalidRequestBodyFileError
 from zum.requests.models import Request
 
 
+class TestGenerateRequestWithMissingBodyFilePath:
+    def setup_method(self):
+        self.raw_endpoint = {"route": "/example/", "method": "post", "body": "json"}
+        self.arguments = []
+        self.expected_route = "/example/"
+
+    def test_request_generation_missing_file(self):
+        with pytest.raises(InvalidRequestBodyFileError):
+            generate_request(self.raw_endpoint, self.arguments)
+
+
 class TestGenerateRequestWithNonExistantBodyFile:
     def setup_method(self):
         self.json_file_path = Path(".").joinpath(
             "tests", "requests", "non_existant_body_file.json"
         )
-        self.raw_endpoint = {
-            "route": "/example/",
-            "method": "post",
-            "bodyPath": self.json_file_path.absolute(),
-        }
-        self.arguments = []
+        self.raw_endpoint = {"route": "/example/", "method": "post", "body": "json"}
+        self.arguments = [self.json_file_path.absolute()]
         self.expected_route = "/example/"
 
     def test_request_generation_missing_file(self):
@@ -39,7 +46,7 @@ class TestGenerateRequestWithExistingBodyFile:
             "method": "post",
             "params": ["id", "query"],
             "headers": ["Authorization"],
-            "bodyPath": self.json_file_path.absolute(),
+            "body": "json",
         }
         self.params = {"id": 35, "query": "mystring"}
         self.headers = {"Authorization": "Bearer F"}
@@ -48,6 +55,7 @@ class TestGenerateRequestWithExistingBodyFile:
             self.params["id"],
             self.params["query"],
             self.headers["Authorization"],
+            self.json_file_path.absolute(),
         ]
         self.expected_route = (
             f"/example/{self.params['id']}?query={self.params['query']}"
