@@ -92,8 +92,8 @@ class TestCastValue:
         assert output == self.float["output"]
 
     def test_number(self):
-        integer_output = cast_value(*self.integer["input"])
-        float_output = cast_value(*self.float["input"])
+        integer_output = cast_value(self.integer["input"][0], "number")
+        float_output = cast_value(self.float["input"][0], "number")
         assert (
             integer_output == self.integer["output"]
             and float_output == self.float["output"]
