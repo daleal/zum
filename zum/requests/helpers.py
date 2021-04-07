@@ -57,7 +57,7 @@ def cast_value(value: str, casting_type: str) -> Any:
     """Casts value depending on the casting type."""
     if casting_type == "integer":
         return int(value)
-    if casting_type == "float":
+    if casting_type in ["float", "number"]:
         return float(value)
     if casting_type == "boolean":
         if value not in ["true", "false"]:
