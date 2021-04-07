@@ -171,7 +171,7 @@ This will send a `POST` request to `http://localhost:8000/living-beings` with th
 }
 ```
 
-**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint)
+**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint).
 
 #### Combining `params`, `headers` and `body`
 
