@@ -91,6 +91,14 @@ class TestCastValue:
         output = cast_value(*self.float["input"])
         assert output == self.float["output"]
 
+    def test_number(self):
+        integer_output = cast_value(*self.integer["input"])
+        float_output = cast_value(*self.float["input"])
+        assert (
+            integer_output == self.integer["output"]
+            and float_output == self.float["output"]
+        )
+
     def test_invalid_boolean(self):
         with pytest.raises(InvalidBodyParameterTypeError) as excinfo:
             cast_value(*self.invalid_boolean)
