@@ -114,7 +114,7 @@ As you can see, the element inside `params` matches the element inside the brack
 zum get-song 57
 ```
 
-Now, `zum` will send a `GE`T HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
+Now, `zum` will send a `GET` HTTP request to `http://localhost:8000/songs/57`. Pretty cool!
 
 #### The `headers` of an endpoint
 
@@ -133,9 +133,7 @@ Now, to acquire the catalog, we would need to run:
 zum get-authorized-catalog "Bearer super-secret-token"
 ```
 
-::: warning ⚠ Warning
-Notice that, for the first time, we surrounded something with quotes on the CLI. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
-:::
+> ⚠ **Warning**: Notice that, for the first time, we surrounded something with quotes on the CLI. The reason we did this is that, without the quotes, the console has no way of knowing if you want to pass a parameter with a space in the middle or if you want to pass multiple parameters, so it defaults to receiving the words as multiple parameters. To stop this from happening, you can surround the string in quotes, and now the whole string will be interpreted as only one parameter with the space in the middle of the string. This will be handy on future examples, so **keep it in mind**.
 
 This will send a `GET` request to `http://localhost:8000/catalog` with the following headers:
 
@@ -173,7 +171,7 @@ This will send a `POST` request to `http://localhost:8000/living-beings` with th
 }
 ```
 
-**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint)
+**Notice that you can also cast the parameters to different types**. You can read more about this on the complete documentation's section about [the request body](https://zum.daleal.dev/docs/config-file.html#the-body-of-an-endpoint).
 
 #### Combining `params`, `headers` and `body`
 
@@ -254,3 +252,4 @@ make tests
 
 - [Official Website](https://zum.daleal.dev/)
 - [Issue Tracker](https://github.com/daleal/zum/issues/)
+- [Contributing Guidelines](.github/CONTRIBUTING.md)
